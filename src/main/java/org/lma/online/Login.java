@@ -20,7 +20,6 @@ public class Login extends JFrame {
 
 	private JPanel contentPanel;
 	private JFrame frame;
-	private JTextPane title;
 	private JTextField userField;
 	private JTextField passField;
 	private JButton forgotPassword;
@@ -44,12 +43,6 @@ public class Login extends JFrame {
 	
 	public void createTextpaneAndTextfield() {
 		contentPanel = new JPanel();
-		
-		title = new JTextPane();
-		title.setText("ĐĂNG NHẬP");
-		title.setFont(new Font("Times New Roman", Font.BOLD, 24));
-		title.setBounds(164, 11, 149, 40);
-		contentPanel.add(title);
 		
 		JLabel user = new JLabel("Tài khoản");
 		user.setBounds(54, 92, 55, 32);
@@ -88,6 +81,12 @@ public class Login extends JFrame {
 		forgotPassword = new JButton("Quên mật khẩu?");
 		forgotPassword.setBounds(92, 201, 111, 23);
 		contentPanel.add(forgotPassword);
+		
+		JLabel title = new JLabel("PHẦN MỀM QUẢN LÝ GIẶT LÀ");
+		title.setFont(new Font("Times New Roman", Font.BOLD, 24));
+		title.setBounds(65, 11, 362, 61);
+		contentPanel.add(title);
+	
 	}
 
 	public void createFrame() {
@@ -98,7 +97,7 @@ public class Login extends JFrame {
 		this.frame.setContentPane(this.contentPanel);
 		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.frame.getContentPane().setLayout(null);
-	
+		
 		this.frame.setBounds(350, 200, 500, 380);
 		this.frame.setVisible(true);
 		this.frame.addWindowListener(new java.awt.event.WindowAdapter() {
