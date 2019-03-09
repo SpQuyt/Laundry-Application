@@ -1,3 +1,5 @@
+package org.lma.online;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
