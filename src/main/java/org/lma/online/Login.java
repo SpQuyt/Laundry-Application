@@ -44,11 +44,11 @@ public class Login extends JFrame {
 	public void createTextpaneAndTextfield() {
 		contentPanel = new JPanel();
 		
-		JLabel user = new JLabel("Tài khoản");
+		JLabel user = new JLabel("TÃ i khoáº£n");
 		user.setBounds(54, 92, 55, 32);
 		contentPanel.add(user);
 		
-		JLabel pass = new JLabel("Mật khẩu");
+		JLabel pass = new JLabel("Máº­t kháº©u");
 		pass.setBounds(54, 146, 55, 32);
 		contentPanel.add(pass);
 		
@@ -62,7 +62,7 @@ public class Login extends JFrame {
 		passField.setBounds(142, 149, 258, 26);
 		contentPanel.add(passField);
 		
-		JButton signUpPlace = new JButton("Chưa có tài khoản? Đăng ký tại đây");
+		JButton signUpPlace = new JButton("Chưa có tài khoản? Đăng ký ở đây");
 		signUpPlace.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -82,7 +82,7 @@ public class Login extends JFrame {
 		forgotPassword.setBounds(92, 201, 111, 23);
 		contentPanel.add(forgotPassword);
 		
-		JLabel title = new JLabel("PHẦN MỀM QUẢN LÝ GIẶT LÀ");
+		JLabel title = new JLabel("PHẦN MỀM QUẢ NLYS GIẶT LÀ");
 		title.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		title.setBounds(65, 11, 362, 61);
 		contentPanel.add(title);
