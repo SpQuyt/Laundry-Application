@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -90,7 +91,9 @@ public class Login extends JFrame {
 	}
 
 	public void createFrame() {
+		ImageIcon img = new ImageIcon("./icon app.png");
 		this.frame = new JFrame();
+		this.frame.setIconImage(img.getImage());
 		this.contentPanel.setLayout(null);
 		this.frame.setContentPane(this.contentPanel);
 		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -111,12 +114,6 @@ public class Login extends JFrame {
 	}
 	
 	public Login() {
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setBounds(100, 100, 450, 300);
-//		contentPane = new JPanel();
-//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-//		contentPane.setLayout(new BorderLayout(0, 0));
-//		setContentPane(contentPane);
 		createTextpaneAndTextfield();
 		createFrame();
 	}
