@@ -1,3 +1,4 @@
 eclipse.preferences.version=1
-encoding//src/main/java/org/lma/online/Home.java=UTF-8
-encoding//src/main/java/org/lma/online/Login.java=UTF-8
+encoding//src/main/java/org/lma/app/HomeClosed.java=UTF-8
+encoding//src/main/java/org/lma/app/HomeOpened.java=UTF-8
+encoding//src/main/java/org/lma/app/Login.java=UTF-8

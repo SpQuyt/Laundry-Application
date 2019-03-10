@@ -1,24 +1,22 @@
-package org.lma.online;
+package org.lma.app;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
-public class Home extends JFrame {
+public class Login extends JFrame {
 
 	private JPanel contentPanel;
 	private JFrame frame;
@@ -28,7 +26,7 @@ public class Home extends JFrame {
 	public ImageIcon img = new ImageIcon("./icon app.png");
 
 	public static void main(String[] args) throws IOException {
-		new Home();
+		new Login();
 	}
 
 //	public static void main1(String[] args) {
@@ -47,11 +45,11 @@ public class Home extends JFrame {
 	public void createTextpaneAndTextfield() {
 		contentPanel = new JPanel();
 		
-		JLabel user = new JLabel("TÃ i khoáº£n");
+		JLabel user = new JLabel("Tài khoản");
 		user.setBounds(54, 92, 55, 32);
 		contentPanel.add(user);
 		
-		JLabel pass = new JLabel("Máº­t kháº©u");
+		JLabel pass = new JLabel("Mật khẩu");
 		pass.setBounds(54, 146, 55, 32);
 		contentPanel.add(pass);
 		
@@ -76,23 +74,15 @@ public class Home extends JFrame {
 		JButton login = new JButton("Đăng nhập");
 		login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JDialog modal = new JDialog(frame, true);
-			    modal.setLocationRelativeTo(null); 
-			    modal.setIconImage(img.getImage());
-//				this.contentPanel.setLayout(null);
-//				this.frame.setContentPane(this.contentPanel);
-				modal.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				modal.getContentPane().setLayout(null);
-				
-				modal.setBounds(350, 200, 500, 380);
-				modal.setVisible(true);
+				frame.dispose();
+				new HomeClosed();
 			}
 		});
 		login.setBounds(281, 201, 101, 23);
 		contentPanel.add(login);
 		
 		forgotPassword = new JButton("Quên mật khẩu?");
-		forgotPassword.setBounds(92, 201, 111, 23);
+		forgotPassword.setBounds(92, 201, 127, 23);
 		contentPanel.add(forgotPassword);
 		
 		JLabel title = new JLabel("PHẦN MỀM QUẢN LÝ GIẶT LÀ");
@@ -103,7 +93,6 @@ public class Home extends JFrame {
 	}
 
 	public void createFrame() {
-		ImageIcon img = new ImageIcon("./icon app.png");
 		this.frame = new JFrame();
 		this.frame.setIconImage(img.getImage());
 		this.contentPanel.setLayout(null);
@@ -123,10 +112,24 @@ public class Home extends JFrame {
 			}
 		});
 		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-//		this.frame.setAlwaysOnTop(true);
 	}
 	
-	public Home() {
+	public Login() {
+		try {
+			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		createTextpaneAndTextfield();
 		createFrame();
 	}
