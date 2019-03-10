@@ -28,19 +28,6 @@ public class Login extends JFrame {
 	public static void main(String[] args) throws IOException {
 		new Login();
 	}
-
-//	public static void main1(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Login hasagi = new Login();
-//					hasagi.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 	
 	public void createTextpaneAndTextfield() {
 		contentPanel = new JPanel();
@@ -75,7 +62,7 @@ public class Login extends JFrame {
 		login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				new HomeClosed();
+				new HomeWhenClosed();
 			}
 		});
 		login.setBounds(281, 201, 101, 23);
@@ -89,11 +76,11 @@ public class Login extends JFrame {
 		title.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		title.setBounds(65, 11, 362, 61);
 		contentPanel.add(title);
-	
 	}
 
 	public void createFrame() {
 		this.frame = new JFrame();
+		this.frame.setTitle("Quick Laundry Management");
 		this.frame.setIconImage(img.getImage());
 		this.contentPanel.setLayout(null);
 		this.frame.setContentPane(this.contentPanel);

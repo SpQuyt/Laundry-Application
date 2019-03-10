@@ -29,14 +29,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
-public class HomeOpened extends JFrame {
+public class HomeWhenClosed extends JFrame {
 
 	private JPanel contentPanel;
 	private JFrame frame;
+	private JBroTable table;
+	private JTabbedPane areaTab;
 	public ImageIcon img = new ImageIcon("./icon app.png");
 
 	public static void main(String[] args) throws IOException {
-		new HomeOpened();
+		new HomeWhenClosed();
 	}
 
 	public void getData() {
@@ -44,15 +46,13 @@ public class HomeOpened extends JFrame {
 
 	public void createTextpaneAndTextfield() {
 		contentPanel = new JPanel();
-
 		JLabel title = new JLabel("PHẦN MỀM QUẢN LÝ GIẶT LÀ");
 		title.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		title.setBounds(504, 11, 362, 61);
 		contentPanel.add(title);
-
 	}
-
-	public void createTab() {
+	
+	public void createTable() {
 		String[][] dataTable = {
 				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
 				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
@@ -84,44 +84,7 @@ public class HomeOpened extends JFrame {
 				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
 				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
 		};
-
-		JTabbedPane areaTab = new JTabbedPane(JTabbedPane.TOP);
-		areaTab.setBounds(41, 81, 1200, 544);
-		contentPanel.add(areaTab);
-
-		JPanel openPanel = new JPanel();
-		openPanel.setLayout(null);
-		areaTab.addTab("CỬA HÀNG", null, openPanel, null);
 		
-		JButton takeFromCustomer = new JButton("Nhận hàng");
-		takeFromCustomer.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		takeFromCustomer.setBounds(860, 60, 268, 76);
-		openPanel.add(takeFromCustomer);
-		
-		JButton sendBackToCustomer = new JButton("Trả hàng");
-		sendBackToCustomer.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		sendBackToCustomer.setBounds(860, 196, 268, 76);
-		openPanel.add(sendBackToCustomer);
-		
-		JButton closeButton = new JButton("ĐÓNG CỬA HÀNG");
-		closeButton.setFont(new Font("Times New Roman", Font.BOLD, 23));
-		closeButton.setBounds(860, 360, 268, 115);
-		openPanel.add(closeButton);
-		
-		JLabel moneyLabel = new JLabel("SỐ TIỀN HIỆN TẠI CỦA VÍ");
-		moneyLabel.setFont(new Font("Times New Roman", Font.BOLD, 17));
-		moneyLabel.setBounds(54, 163, 229, 76);
-		openPanel.add(moneyLabel);
-		
-		JLabel money = new JLabel("");
-		money.setFont(new Font("Times New Roman", Font.BOLD, 17));
-		money.setBounds(309, 163, 229, 76);
-		openPanel.add(money);
-
-		JPanel diaryPanel = new JPanel();
-		diaryPanel.setLayout(null);
-		areaTab.addTab("NHẬT KÝ HOÁ ĐƠN", null, diaryPanel, null);
-
 		IModelFieldGroup groups[] = new IModelFieldGroup[] { 
 				new ModelField("STT", "STT").withDefaultWidth(50),
 				new ModelField("MAHD", "Mã HĐ"), 
@@ -157,7 +120,7 @@ public class HomeOpened extends JFrame {
 		// Table.
 		ModelData data = new ModelData(groups);
 		data.setRows(rows);
-		JBroTable table = new JBroTable(data);		
+		table = new JBroTable(data);		
 		
 		table.getTableHeader().getUI().setCustomRenderer(new CustomTableHeaderRenderer() {
 			public Component getTableCellRendererComponent( Component originalComponent, JBroTable table, Object value, boolean isSelected, boolean hasFocus, boolean isDragged, int row, int viewColumn, int modelColumn, IModelFieldGroup dataField ) {
@@ -191,7 +154,37 @@ public class HomeOpened extends JFrame {
 				  return ret;
 			}
 		});
-		
+	}
+	
+	public void createAreaTab() {
+		areaTab = new JTabbedPane(JTabbedPane.TOP);
+		areaTab.setBounds(41, 81, 1200, 544);
+		contentPanel.add(areaTab);
+	}
+
+	public void createOpenTab() {
+
+		JPanel openPanel = new JPanel();
+		openPanel.setLayout(null);
+		areaTab.addTab("CỬA HÀNG", null, openPanel, null);
+
+		JButton openButton = new JButton("MỞ");
+		openButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new HomeWhenOpened();
+			}
+		});
+		openButton.setFont(new Font("Times New Roman", Font.BOLD, 75));
+		openButton.setBounds(448, 183, 322, 102);
+		openPanel.add(openButton);
+	}
+	
+	public void createDiaryTab() {
+		JPanel diaryPanel = new JPanel();
+		diaryPanel.setLayout(null);
+		areaTab.addTab("NHẬT KÝ HOÁ ĐƠN", null, diaryPanel, null);
+
+		createTable();
 
 		JScrollPane jps = new JScrollPane(table);
 		jps.setBounds(48, 50, 1099, 458);
@@ -200,6 +193,7 @@ public class HomeOpened extends JFrame {
 
 	public void createFrame() {
 		this.frame = new JFrame();
+		this.frame.setTitle("Quick Laundry Management");
 		this.frame.setIconImage(img.getImage());
 		this.contentPanel.setLayout(null);
 		this.frame.setContentPane(this.contentPanel);
@@ -220,7 +214,7 @@ public class HomeOpened extends JFrame {
 		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 
-	public HomeOpened() {
+	public HomeWhenClosed() {
 		try {
 			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
 		} catch (ClassNotFoundException e) {
@@ -237,7 +231,9 @@ public class HomeOpened extends JFrame {
 			e.printStackTrace();
 		}
 		createTextpaneAndTextfield();
-		createTab();
+		createAreaTab();
+		createOpenTab();
+		createDiaryTab();
 		createFrame();
 	}
 }
