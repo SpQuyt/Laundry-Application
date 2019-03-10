@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
-public class Login extends JFrame {
+public class Home extends JFrame {
 
 	private JPanel contentPanel;
 	private JFrame frame;
@@ -28,7 +28,7 @@ public class Login extends JFrame {
 	public ImageIcon img = new ImageIcon("./icon app.png");
 
 	public static void main(String[] args) throws IOException {
-		new Login();
+		new Home();
 	}
 
 //	public static void main1(String[] args) {
@@ -47,11 +47,11 @@ public class Login extends JFrame {
 	public void createTextpaneAndTextfield() {
 		contentPanel = new JPanel();
 		
-		JLabel user = new JLabel("Tài khoản");
+		JLabel user = new JLabel("TÃ i khoáº£n");
 		user.setBounds(54, 92, 55, 32);
 		contentPanel.add(user);
 		
-		JLabel pass = new JLabel("Mật khẩu");
+		JLabel pass = new JLabel("Máº­t kháº©u");
 		pass.setBounds(54, 146, 55, 32);
 		contentPanel.add(pass);
 		
@@ -76,15 +76,23 @@ public class Login extends JFrame {
 		JButton login = new JButton("Đăng nhập");
 		login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frame.dispose();
-				new Home();
+				JDialog modal = new JDialog(frame, true);
+			    modal.setLocationRelativeTo(null); 
+			    modal.setIconImage(img.getImage());
+//				this.contentPanel.setLayout(null);
+//				this.frame.setContentPane(this.contentPanel);
+				modal.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				modal.getContentPane().setLayout(null);
+				
+				modal.setBounds(350, 200, 500, 380);
+				modal.setVisible(true);
 			}
 		});
 		login.setBounds(281, 201, 101, 23);
 		contentPanel.add(login);
 		
 		forgotPassword = new JButton("Quên mật khẩu?");
-		forgotPassword.setBounds(92, 201, 127, 23);
+		forgotPassword.setBounds(92, 201, 111, 23);
 		contentPanel.add(forgotPassword);
 		
 		JLabel title = new JLabel("PHẦN MỀM QUẢN LÝ GIẶT LÀ");
@@ -95,6 +103,7 @@ public class Login extends JFrame {
 	}
 
 	public void createFrame() {
+		ImageIcon img = new ImageIcon("./icon app.png");
 		this.frame = new JFrame();
 		this.frame.setIconImage(img.getImage());
 		this.contentPanel.setLayout(null);
@@ -114,9 +123,10 @@ public class Login extends JFrame {
 			}
 		});
 		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+//		this.frame.setAlwaysOnTop(true);
 	}
 	
-	public Login() {
+	public Home() {
 		createTextpaneAndTextfield();
 		createFrame();
 	}
