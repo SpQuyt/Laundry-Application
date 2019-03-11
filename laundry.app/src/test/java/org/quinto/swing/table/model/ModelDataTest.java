@@ -23,16 +23,19 @@ public class ModelDataTest {
   public ModelDataTest() {
   }
   
-  @BeforeClass
+  @SuppressWarnings("restriction")
+@BeforeClass
   public static void setUpClass() {
     Utils.initSimpleConsoleLogger();
   }
   
-  @AfterClass
+  @SuppressWarnings("restriction")
+@AfterClass
   public static void tearDownClass() {
   }
   
-  @Before
+  @SuppressWarnings("restriction")
+@Before
   public void setUp() {
     IModelFieldGroup groups[] = new IModelFieldGroup[] {
       new ModelFieldGroup( "A", "A" )
@@ -53,11 +56,13 @@ public class ModelDataTest {
     data = new ModelData( groups );
   }
   
-  @After
+  @SuppressWarnings("restriction")
+@After
   public void tearDown() {
   }
 
-  @Test( timeout = 1000L )
+  @SuppressWarnings("restriction")
+@Test( timeout = 1000L )
   public void getAllFieldGroupsFromBottomBreadthFirst() {
     List< Triple< String, Integer, Integer > > spans = new ArrayList< Triple< String, Integer, Integer > >();
     Iterable< IModelFieldGroup > groups = data.getAllFieldGroupsFromBottom( false );
