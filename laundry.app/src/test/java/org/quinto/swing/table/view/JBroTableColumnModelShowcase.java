@@ -66,7 +66,6 @@ public class JBroTableColumnModelShowcase {
     }
     final Method setDesktopProperty = m;
     ActionListener lafChanger = new ActionListener() {
-      @Override
       public void actionPerformed( ActionEvent event ) {
         try {
           if ( laf == 0 )
@@ -147,7 +146,6 @@ public class JBroTableColumnModelShowcase {
         return col;
       }
       
-      @Override
       public void actionPerformed( ActionEvent e ) {
         JBroTableModel model = table.getModel();
         List< ModelFieldGroup > groups = new ArrayList< ModelFieldGroup >();
@@ -189,7 +187,6 @@ public class JBroTableColumnModelShowcase {
     table = new JBroTable( data );
     table.setAutoCreateRowSorter( true );
     table.getTableHeader().getUI().setCustomRenderer( new CustomTableHeaderRenderer() {
-      @Override
       public Component getTableCellRendererComponent( final Component originalComponent, JBroTable table, Object value, boolean isSelected, boolean hasFocus, boolean isDragged, int row, int viewColumn, int modelColumn, IModelFieldGroup dataField ) {
         if ( dataField == null || !( originalComponent instanceof JLabel ) )
           return originalComponent;
@@ -243,7 +240,6 @@ public class JBroTableColumnModelShowcase {
     pane.add( columnToRemoveInput );
     JButton removeColumnButton = new JButton( "Remove column" );
     removeColumnButton.addActionListener( new ActionListener() {
-      @Override
       public void actionPerformed( ActionEvent e ) {
         table.getModel().removeColumn( columnToRemoveInput.getText().trim().toUpperCase() );
       }
