@@ -2,22 +2,32 @@ package org.lma.app;
 
 import java.awt.Font;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class TakeFromCustomers extends JFrame {
 
 	private JPanel contentPanel;
 	private JFrame frame;
+	private JPanel dvChinh;
+	private JPanel dvPhu;
+	private JPanel dvKhac;
+	private JPanel thanhToan;
 	public ImageIcon img = new ImageIcon("./icon app.png");
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField nameField;
+	private JTextField weightField;
 
 	public static void main(String[] args) {
 		new TakeFromCustomers();
@@ -46,10 +56,19 @@ public class TakeFromCustomers extends JFrame {
 	public void createTextpaneAndTextfield() {
 		contentPanel = new JPanel();
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(49, 139, 534, 267);
+		tabbedPane.setBounds(49, 139, 500, 267);
 		contentPanel.add(tabbedPane);
 		
-		JPanel dvChinh = new JPanel();
+		createDichVuChinh(tabbedPane);
+		createDichVuPhu(tabbedPane);
+		createDichVuKhac(tabbedPane);
+		createThanhToan(tabbedPane);		
+	}
+	
+	public void createDichVuChinh(JTabbedPane tabbedPane) {
+		ButtonGroup group = new ButtonGroup();
+		
+		dvChinh = new JPanel();
 		dvChinh.setLayout(null);
 		tabbedPane.addTab("DỊCH VỤ GIẶT CHÍNH", null, dvChinh, null);
 		
@@ -63,35 +82,69 @@ public class TakeFromCustomers extends JFrame {
 		khoiLuongGiat.setBounds(32, 112, 166, 65);
 		dvChinh.add(khoiLuongGiat);
 		
-		textField = new JTextField();
-		textField.setBounds(247, 25, 216, 51);
-		dvChinh.add(textField);
-		textField.setColumns(10);
+		nameField = new JTextField();
+		nameField.setBounds(196, 21, 216, 51);
+		dvChinh.add(nameField);
+		nameField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(247, 176, 216, 20);
-		dvChinh.add(textField_1);
-		textField_1.setColumns(10);
+		weightField = new JTextField();
+		weightField.setBounds(286, 137, 126, 20);
+		dvChinh.add(weightField);
+		weightField.setColumns(10);
 		
-		JCheckBox chckbxCnSau = new JCheckBox("Cân sau");
-		chckbxCnSau.setBounds(247, 136, 97, 23);
-		dvChinh.add(chckbxCnSau);
+		JRadioButton weightAfter = new JRadioButton("Cân sau");
+		weightAfter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				weightField.setEnabled(false);
+			}
+		});
+		weightAfter.setBounds(196, 177, 84, 23);
+		dvChinh.add(weightAfter);
 		
-		JPanel dvPhu = new JPanel();
+		JRadioButton weightFirst = new JRadioButton("Cân trước");
+		weightFirst.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				weightField.setEnabled(true);
+			}
+		});
+		weightFirst.setBounds(196, 137, 84, 23);
+		dvChinh.add(weightFirst);
+	}
+	
+	public void createDichVuPhu(JTabbedPane tabbedPane) {
+		dvPhu = new JPanel();
 		dvPhu.setLayout(null);
 		tabbedPane.addTab("DỊCH VỤ GIẶT PHỤ", null, dvPhu, null);
-		
-		JPanel dvKhac = new JPanel();
+	}
+	
+	public void createDichVuKhac(JTabbedPane tabbedPane) {
+		dvKhac = new JPanel();
 		dvKhac.setLayout(null);
 		tabbedPane.addTab("DỊCH VỤ GIẶT KHÁC", null, dvKhac, null);
-		
-		JPanel thanhToan = new JPanel();
+	}
+	
+	public void createThanhToan(JTabbedPane tabbedPane) {
+		thanhToan = new JPanel();
 		thanhToan.setLayout(null);
 		tabbedPane.addTab("THANH TOÁN TIỀN", null, thanhToan, null);
-		
 	}
 	
 	public TakeFromCustomers() {
+		try {
+			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		createTextpaneAndTextfield();
 		createFrame();
 	}
