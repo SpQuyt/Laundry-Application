@@ -171,6 +171,7 @@ public class HomeWhenClosed extends JFrame {
 		JButton openButton = new JButton("MỞ");
 		openButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
 				new HomeWhenOpened();
 			}
 		});

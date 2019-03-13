@@ -5,10 +5,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class TakeFromCustomers extends JFrame {
+public class TakeFromCustomers extends JDialog {
 
 	private JPanel contentPanel;
-	private JFrame frame;
 	private JPanel dvChinh;
 	private JPanel dvPhu;
 	private JPanel dvKhac;
@@ -43,17 +42,17 @@ public class TakeFromCustomers extends JFrame {
 	private JButton printButton;
 
 	public static void main(String[] args) {
-		new TakeFromCustomers();
+//		JDialog modal = new JDialog();
+//		new TakeFromCustomers(modal);
 	}
 
-	public void createFrame() {
-		this.frame = new JFrame();
-		this.frame.setTitle("Phiếu nhận hàng từ khách");
-		this.frame.setIconImage(img.getImage());
+	public void createFrame(final JDialog frame) {
+		frame.setTitle("Phiếu nhận hàng từ khách");
+		frame.setIconImage(img.getImage());
 		this.contentPanel.setLayout(null);
-		this.frame.setContentPane(this.contentPanel);
-		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.frame.getContentPane().setLayout(null);
+		frame.setContentPane(this.contentPanel);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 		
 		JLabel tenKH = new JLabel("Tên Khách Hàng");
 		tenKH.setBounds(49, 48, 155, 42);
@@ -65,15 +64,15 @@ public class TakeFromCustomers extends JFrame {
 		contentPanel.add(nameField);
 		nameField.setColumns(10);
 		
-		this.frame.setBounds(350, 200, 675, 496);
-		this.frame.setVisible(true);
-		this.frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		frame.setBounds(300, 150, 675, 496);
+		frame.setVisible(true);
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				frame.dispose();
 			}
 		});
-		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	
 	public void createTextpaneAndTextfield() {
@@ -266,32 +265,32 @@ public class TakeFromCustomers extends JFrame {
 		dvPhu.add(nho2Field);
 		
 		to1 = new JLabel("To");
-		to1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		to1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		to1.setBounds(239, 11, 30, 17);
 		dvPhu.add(to1);
 		
 		vua1 = new JLabel("Vừa");
-		vua1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		vua1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		vua1.setBounds(239, 38, 30, 17);
 		dvPhu.add(vua1);
 		
 		nho1 = new JLabel("Nhỏ");
-		nho1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		nho1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		nho1.setBounds(239, 66, 30, 17);
 		dvPhu.add(nho1);
 		
 		to2 = new JLabel("To");
-		to2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		to2.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		to2.setBounds(239, 128, 30, 17);
 		dvPhu.add(to2);
 		
 		vua2 = new JLabel("Vừa");
-		vua2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		vua2.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		vua2.setBounds(239, 155, 30, 17);
 		dvPhu.add(vua2);
 		
 		nho2 = new JLabel("Nhỏ");
-		nho2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		nho2.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		nho2.setBounds(239, 180, 30, 17);
 		dvPhu.add(nho2);
 		
@@ -358,7 +357,7 @@ public class TakeFromCustomers extends JFrame {
 		tabbedPane.addTab("DỊCH VỤ GIẶT KHÁC", null, dvKhac, null);
 		
 		tenDV = new JLabel("Tên Dịch Vụ Khác");
-		tenDV.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		tenDV.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		tenDV.setBounds(56, 37, 126, 20);
 		dvKhac.add(tenDV);
 		
@@ -368,7 +367,7 @@ public class TakeFromCustomers extends JFrame {
 		dvKhac.add(textField);
 		
 		soTien = new JLabel("Số tiền");
-		soTien.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		soTien.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		soTien.setBounds(56, 168, 126, 20);
 		dvKhac.add(soTien);
 		
@@ -419,7 +418,7 @@ public class TakeFromCustomers extends JFrame {
 		thanhToan.add(printButton);
 	}
 	
-	public TakeFromCustomers() {
+	public TakeFromCustomers(JDialog modal) {
 		try {
 			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
 		} catch (ClassNotFoundException e) {
@@ -432,6 +431,6 @@ public class TakeFromCustomers extends JFrame {
 			e.printStackTrace();
 		}
 		createTextpaneAndTextfield();
-		createFrame();
+		createFrame(modal);
 	}
 }

@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -173,9 +174,8 @@ public class HomeWhenOpened extends JFrame {
 		takeFromCustomer.setBounds(860, 60, 268, 76);
 		takeFromCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JDialog modal = new JDialog(new TakeFromCustomers(), "Phiếu nhận hàng từ khách", true);
-				modal.setBounds(281, 201, 101, 23);
-			    modal.setLocationRelativeTo(null);
+				JDialog modalTake = new JDialog(new JFrame(), true);
+				new TakeFromCustomers(modalTake);
 			}
 		});
 		openPanel.add(takeFromCustomer);
@@ -185,9 +185,8 @@ public class HomeWhenOpened extends JFrame {
 		sendBackToCustomer.setBounds(860, 196, 268, 76);
 		sendBackToCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JDialog modal = new JDialog(new GiveToCustomers(), "Phiếu trả hàng cho khách", true);
-				modal.setBounds(281, 201, 101, 23);
-			    modal.setLocationRelativeTo(null);
+				JDialog modalGive = new JDialog(new JFrame(), true);
+				new GiveToCustomers(modalGive);
 			}
 		});
 		openPanel.add(sendBackToCustomer);
