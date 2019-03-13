@@ -8,6 +8,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import org.lma.online.API;
+import org.lma.online.Database;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
@@ -23,6 +27,7 @@ public class Login extends JFrame {
 	private JTextField userField;
 	private JTextField passField;
 	private JButton forgotPassword;
+	private API api = null;
 	public ImageIcon img = new ImageIcon("./icon app.png");
 
 	public static void main(String[] args) throws IOException {
@@ -60,7 +65,12 @@ public class Login extends JFrame {
 		
 		JButton login = new JButton("Đăng nhập");
 		login.addActionListener(new ActionListener() {
+			@SuppressWarnings("null")
 			public void actionPerformed(ActionEvent arg0) {
+				if (Database.connectDB()) {
+					api.loginAPI(userField.getText(), passField.getText());
+				}
+				
 				frame.dispose();
 				new HomeWhenClosed();
 			}
@@ -105,16 +115,12 @@ public class Login extends JFrame {
 		try {
 			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		createTextpaneAndTextfield();
