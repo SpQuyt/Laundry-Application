@@ -5,9 +5,10 @@ import java.net.*;
 import java.util.*;
 
 import org.apache.http.NameValuePair;
+import org.json.*;
 
 public class ConnectServer {
-
+	
 	
 
 //	public static void main(String[] args) throws Exception {
@@ -56,7 +57,7 @@ public class ConnectServer {
 	}
 	
 	// HTTP POST request
-	public static void sendPost(List<NameValuePair> params) throws Exception {
+	public static JSONObject sendPost(List<NameValuePair> params) throws Exception {
 		
 		URL obj = new URL(Internet.urlServer);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -73,21 +74,18 @@ public class ConnectServer {
 		wr.flush();
 		wr.close();
 
-		System.out.println("\nSending 'POST' request to URL : " + Internet.urlServer);
+		System.out.println("\nSending 'POST' request to URL : " + Internet.urlServer + "\n");
 
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
 		
-		//print result
-		System.out.println(response.toString());
-
+		String result ="";
+		String output = null;
+		while ((result = in.readLine()) != null) {
+		    output = result.replace("[", "").replace("]", "");
+		}
+		JSONObject jsonObject = new JSONObject(output); 
+		return jsonObject;
 	}
 	
 	private static String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException

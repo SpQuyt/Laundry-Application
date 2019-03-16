@@ -5,17 +5,26 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 public class API {
-	public static void loginAPI(String user, String pass) throws Exception {	
+	public static ConnectServer con;
+	public static JSONObject response;
+	
+	public static JSONObject loginAPI(String user, String pass){	
 		//add params
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("user", "A"));
-		params.add(new BasicNameValuePair("pass", "A"));
+		params.add(new BasicNameValuePair("user", user));
+		params.add(new BasicNameValuePair("pass", pass));
 		
 		//send POST request to server
-		ConnectServer.sendPost(params);
-
+		try {
+			response = ConnectServer.sendPost(params);
+		} catch (Exception e1) {
+			response = null;
+			e1.printStackTrace();
+		}
+		return response;
 	}
 	
 }

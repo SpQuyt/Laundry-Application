@@ -5,7 +5,12 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import org.json.*;
 import org.lma.online.API;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.*;
+
 import java.awt.event.*;
 
 @SuppressWarnings("serial")
@@ -18,7 +23,7 @@ public class Login extends JFrame {
 	private JButton forgotPassword;
 	public ImageIcon img = new ImageIcon("./icon app.png");
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, JSONException {
 		new Login();
 	}
 
@@ -55,13 +60,28 @@ public class Login extends JFrame {
 		login.addActionListener(new ActionListener() {
 			@SuppressWarnings("null")
 			public void actionPerformed(ActionEvent arg0) {
+				JSONObject response = null;	
+				String message = null;
+				
+				System.out.println(message);
 				try {
-					API.loginAPI(userField.getText(), passField.getText());
+					response = API.loginAPI(userField.getText(), passField.getText());
+					message = response.get("message").toString();
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 
-				frame.dispose();
-				new HomeWhenClosed();
+				System.out.println(message);
+				
+				System.out.println(message.compareTo("notOK"));
+				
+				if (message.compareTo("notOK") == 0) {
+					JOptionPane.showMessageDialog(null, "Không thể đăng nhập được!");
+				}
+				else {
+					System.out.println(response.get("message"));
+					frame.dispose();
+					new HomeWhenClosed();
+				}
 			}
 		});
 		login.setBounds(281, 201, 101, 23);
@@ -88,16 +108,7 @@ public class Login extends JFrame {
 
 		this.frame.setBounds(350, 200, 500, 380);
 		this.frame.setVisible(true);
-		this.frame.addWindowListener(new java.awt.event.WindowAdapter() {
-			@Override
-			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				if (JOptionPane.showConfirmDialog(frame, "Bạn có muốn đóng phần mềm này?", "Form With Excel",
-						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-					System.exit(0);
-				}
-			}
-		});
-		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public Login() {
