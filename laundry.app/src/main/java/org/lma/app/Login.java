@@ -6,10 +6,8 @@ import java.io.IOException;
 import javax.swing.*;
 
 import org.json.*;
-import org.lma.online.API;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.*;
+import org.lma.model.*;
+import org.lma.online.*;
 
 import java.awt.event.*;
 
@@ -19,9 +17,9 @@ public class Login extends JFrame {
 	private JPanel contentPanel;
 	private JFrame frame;
 	private JTextField userField;
-	private JTextField passField;
 	private JButton forgotPassword;
 	public ImageIcon img = new ImageIcon("./icon app.png");
+	private JPasswordField passField = new JPasswordField(20);
 
 	public static void main(String[] args) throws IOException, JSONException {
 		new Login();
@@ -38,15 +36,15 @@ public class Login extends JFrame {
 		pass.setBounds(54, 146, 55, 32);
 		contentPanel.add(pass);
 
+		passField = new JPasswordField();
+		passField.setBounds(142, 152, 258, 20);
+		contentPanel.add(passField);
+
+		
 		userField = new JTextField();
 		userField.setBounds(142, 95, 258, 26);
 		contentPanel.add(userField);
 		userField.setColumns(10);
-
-		passField = new JTextField();
-		passField.setColumns(10);
-		passField.setBounds(142, 149, 258, 26);
-		contentPanel.add(passField);
 
 		JButton signUpPlace = new JButton("Chưa có tài khoản? Đăng ký ở đây");
 		signUpPlace.addActionListener(new ActionListener() {
@@ -58,27 +56,24 @@ public class Login extends JFrame {
 
 		JButton login = new JButton("Đăng nhập");
 		login.addActionListener(new ActionListener() {
-			@SuppressWarnings("null")
 			public void actionPerformed(ActionEvent arg0) {
 				JSONObject response = null;	
 				String message = null;
 				
-				System.out.println(message);
 				try {
-					response = API.loginAPI(userField.getText(), passField.getText());
+					response = API.loginAPI(userField.getText(), Cryptograph.changeToMD5(String.valueOf(passField.getPassword())));
 					message = response.get("message").toString();
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 
-				System.out.println(message);
-				
-				System.out.println(message.compareTo("notOK"));
 				
 				if (message.compareTo("notOK") == 0) {
 					JOptionPane.showMessageDialog(null, "Không thể đăng nhập được!");
 				}
 				else {
-					System.out.println(response.get("message"));
+					UserLoginModel newUser = new UserLoginModel();
+					newUser.setInfo(response);
+					
 					frame.dispose();
 					new HomeWhenClosed();
 				}
@@ -105,7 +100,7 @@ public class Login extends JFrame {
 		this.frame.setContentPane(this.contentPanel);
 		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.frame.getContentPane().setLayout(null);
-
+		
 		this.frame.setBounds(350, 200, 500, 380);
 		this.frame.setVisible(true);
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
