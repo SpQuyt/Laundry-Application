@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import org.apache.http.NameValuePair;
 import org.json.*;
 import org.lma.model.*;
 import org.lma.online.*;
@@ -98,7 +99,11 @@ public class Login extends JFrame {
 				else {
 					UserLoginModel newUserLogin = new UserLoginModel();
 					newUserLogin.setInfo(response);
-					
+					try {
+						Cookies.createCookieFile(response);
+					} catch (Exception e1) {
+						
+					}
 					frame.dispose();
 					new Home(newUserLogin);
 				}
@@ -129,7 +134,31 @@ public class Login extends JFrame {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		createTextpaneAndTextfield();
-		createFrame();
+		
+		if (Cookies.checkCookies()) {
+			JSONObject response = null;	
+			Boolean success = null;
+			
+			try {
+				response = API.loginAPI(Cookies.readCookieFileUsername(), Cookies.readCookieFilePassword());
+				success = (Boolean) response.get("success");
+				System.out.println("SUCCESS: " + success);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Không thể đăng nhập được!");
+			} 
+			
+			if (!success) {
+				JOptionPane.showMessageDialog(null, "Không tìm được tài khoản và mật khẩu người dùng!");
+			}
+			else {
+				UserLoginModel newUserLogin = new UserLoginModel();
+				newUserLogin.setInfo(response);
+				new Home(newUserLogin);
+			}
+		}
+		else {
+			createTextpaneAndTextfield();
+			createFrame();
+		}		
 	}
 }

@@ -49,7 +49,7 @@ public class Home extends JFrame {
 		this.frame.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				if (JOptionPane.showConfirmDialog(frame, "Bạn có muốn đóng phần mềm này?", "Form With Excel",
+				if (JOptionPane.showConfirmDialog(frame, "Bạn có muốn đóng phần mềm này?", "Quick Laundry Management",
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}

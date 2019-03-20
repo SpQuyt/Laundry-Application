@@ -14,8 +14,8 @@ public class API {
 	public static JSONObject loginAPI(String user, String pass){	
 		//add params
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("user", user));
-		params.add(new BasicNameValuePair("pass", pass));
+		params.add(new BasicNameValuePair("username", user));
+		params.add(new BasicNameValuePair("password", pass));
 		
 		//send POST request to server
 		try {
