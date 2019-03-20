@@ -1,6 +1,6 @@
 package org.lma.app;
 
-import java.awt.Font;
+import java.awt.*;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -8,6 +8,10 @@ import javax.swing.*;
 import org.json.*;
 import org.lma.model.*;
 import org.lma.online.*;
+
+import omg.lma.helpers.Cryptograph;
+import omg.lma.helpers.Links;
+import omg.lma.helpers.PointLayout;
 
 import java.awt.event.*;
 
@@ -18,11 +22,32 @@ public class Login extends JFrame {
 	private JFrame frame;
 	private JTextField userField;
 	private JButton forgotPassword;
-	public ImageIcon img = new ImageIcon("./icon app.png");
 	private JPasswordField passField = new JPasswordField(20);
+	private int frameWidth = 500;
+	private int frameHeight = 380;
+	private int x;
+	private int y;
 
 	public static void main(String[] args) throws IOException, JSONException {
 		new Login();
+	}
+	
+	public void createFrame() {
+		this.frame = new JFrame();
+		this.frame.setTitle("Quick Laundry Management");
+		this.frame.setIconImage(Links.img.getImage());
+		this.contentPanel.setLayout(null);
+		this.frame.setContentPane(this.contentPanel);
+		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.frame.getContentPane().setLayout(null);
+		
+		this.x = PointLayout.startXPoints(this.frameWidth, this.frameHeight);
+		this.y = PointLayout.startYPoints(this.frameWidth, this.frameHeight);
+		
+		this.frame.setBounds(this.x, this.y, this.frameWidth, this.frameHeight);
+		this.frame.setVisible(true);
+		this.frame.setResizable(false);
+		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public void createTextpaneAndTextfield() {
@@ -37,7 +62,7 @@ public class Login extends JFrame {
 		contentPanel.add(pass);
 
 		passField = new JPasswordField();
-		passField.setBounds(142, 152, 258, 20);
+		passField.setBounds(142, 152, 258, 26);
 		contentPanel.add(passField);
 
 		
@@ -58,24 +83,24 @@ public class Login extends JFrame {
 		login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JSONObject response = null;	
-				String message = null;
+				Boolean success = null;
 				
 				try {
 					response = API.loginAPI(userField.getText(), Cryptograph.changeToMD5(String.valueOf(passField.getPassword())));
-					message = response.get("message").toString();
+					success = (Boolean) response.get("success");
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Không thể đăng nhập được!");
 				} 
 				
-				if (message.compareTo("notOK") == 0) {
-					JOptionPane.showMessageDialog(null, "Không thể đăng nhập được!");
+				if (!success) {
+					JOptionPane.showMessageDialog(null, "Không tìm được tài khoản và mật khẩu người dùng!");
 				}
 				else {
-					UserLoginModel newUser = new UserLoginModel();
-					newUser.setInfo(response);
+					UserLoginModel newUserLogin = new UserLoginModel();
+					newUserLogin.setInfo(response);
 					
 					frame.dispose();
-					new HomeWhenClosed();
+					new Home(newUserLogin);
 				}
 			}
 		});
@@ -90,20 +115,6 @@ public class Login extends JFrame {
 		title.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		title.setBounds(65, 11, 362, 61);
 		contentPanel.add(title);
-	}
-
-	public void createFrame() {
-		this.frame = new JFrame();
-		this.frame.setTitle("Quick Laundry Management");
-		this.frame.setIconImage(img.getImage());
-		this.contentPanel.setLayout(null);
-		this.frame.setContentPane(this.contentPanel);
-		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.frame.getContentPane().setLayout(null);
-		
-		this.frame.setBounds(350, 200, 500, 380);
-		this.frame.setVisible(true);
-		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public Login() {

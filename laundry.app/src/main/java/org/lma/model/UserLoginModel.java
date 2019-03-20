@@ -121,6 +121,9 @@ public class UserLoginModel {
 		this.username = obj.getJSONObject("result").get("username").toString();
 		this.password = obj.getJSONObject("result").get("password").toString();
 		this.fullname = obj.getJSONObject("result").get("fullname").toString();
+		this.token = obj.get("token").toString();
+		
+		System.out.println(token);
 		
 		JSONObject price = obj.getJSONObject("result").getJSONObject("price");		
 		this.giatSay = Integer.parseInt(price.get("dry").toString());

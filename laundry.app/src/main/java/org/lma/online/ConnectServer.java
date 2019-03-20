@@ -7,6 +7,8 @@ import java.util.*;
 import org.apache.http.NameValuePair;
 import org.json.*;
 
+import omg.lma.helpers.Links;
+
 public class ConnectServer {
 	
 	
@@ -28,17 +30,17 @@ public class ConnectServer {
 	// HTTP GET request
 	public static void sendGet() throws Exception {
 		
-		URL obj = new URL(Internet.urlServer);
+		URL obj = new URL(Links.urlServer);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
 		// optional default is GET
 		con.setRequestMethod("GET");
 
 		//add request header
-		con.setRequestProperty("User-Agent", Internet.USER_AGENT);
+		con.setRequestProperty("User-Agent", Links.USER_AGENT);
 
 		int responseCode = con.getResponseCode();
-		System.out.println("\nSending 'GET' request to URL : " + Internet.urlServer);
+		System.out.println("\nSending 'GET' request to URL : " + Links.urlServer);
 		System.out.println("Response Code : " + responseCode);
 
 		BufferedReader in = new BufferedReader(
@@ -59,12 +61,12 @@ public class ConnectServer {
 	// HTTP POST request
 	public static JSONObject sendPost(List<NameValuePair> params) throws Exception {
 		
-		URL obj = new URL(Internet.urlServer);
+		URL obj = new URL(Links.urlServer);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
 		//add request header
 		con.setRequestMethod("POST");
-		con.setRequestProperty("User-Agent", Internet.USER_AGENT);
+		con.setRequestProperty("User-Agent", Links.USER_AGENT);
 		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 				
 		// Send post request
@@ -74,7 +76,7 @@ public class ConnectServer {
 		wr.flush();
 		wr.close();
 
-		System.out.println("\nSending 'POST' request to URL : " + Internet.urlServer + "\n");
+		System.out.println("\nSending 'POST' request to URL : " + Links.urlServer + "\n");
 
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(con.getInputStream()));

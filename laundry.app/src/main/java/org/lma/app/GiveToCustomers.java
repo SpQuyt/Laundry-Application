@@ -5,11 +5,17 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import omg.lma.helpers.Links;
+import omg.lma.helpers.PointLayout;
+
 @SuppressWarnings("serial")
 public class GiveToCustomers extends JDialog {
 
 	private JPanel contentPanel;
-	public ImageIcon img = new ImageIcon("./icon app.png");
+	private int frameWidth = 500;
+	private int frameHeight = 380;
+	private int x;
+	private int y;
 
 	public static void main(String[] args) {
 		JDialog modal = new JDialog();
@@ -18,13 +24,16 @@ public class GiveToCustomers extends JDialog {
 
 	public void createFrame(final JDialog frame) {
 		frame.setTitle("Phiếu trả hàng cho khách");
-		frame.setIconImage(img.getImage());
+		frame.setIconImage(Links.img.getImage());
 		this.contentPanel.setLayout(null);
 		frame.setContentPane(this.contentPanel);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		frame.setBounds(350, 200, 500, 380);
+		this.x = PointLayout.startXPoints(this.frameWidth, this.frameHeight);
+		this.y = PointLayout.startYPoints(this.frameWidth, this.frameHeight);
+		
+		frame.setBounds(this.x, this.y, this.frameWidth, this.frameHeight);
 		frame.setVisible(true);
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override

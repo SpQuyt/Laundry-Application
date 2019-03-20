@@ -4,15 +4,13 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import omg.lma.helpers.Links;
+import omg.lma.helpers.PointLayout;
+
 @SuppressWarnings("serial")
 public class TakeFromCustomers extends JDialog {
 
-	private JPanel contentPanel;
-	private JPanel dvChinh;
-	private JPanel dvPhu;
-	private JPanel dvKhac;
-	private JPanel thanhToan;
-	public ImageIcon img = new ImageIcon("./icon app.png");
+	private JPanel contentPanel, dvChinh, dvPhu, dvKhac, thanhToan;
 	private JTextField nameField;
 	private JTextField weightField1;
 	private JTextField weightField2;
@@ -40,15 +38,15 @@ public class TakeFromCustomers extends JDialog {
 	private JLabel numberTotal;
 	private int numberTotalAmount = 0;
 	private JButton printButton;
-
-	public static void main(String[] args) {
-//		JDialog modal = new JDialog();
-//		new TakeFromCustomers(modal);
-	}
+	
+	private int frameWidth = 675;
+	private int frameHeight = 496;
+	private int x;
+	private int y;
 
 	public void createFrame(final JDialog frame) {
-		frame.setTitle("Phiếu nhận hàng từ khách");
-		frame.setIconImage(img.getImage());
+		frame.setTitle("Quick Laundry Management");
+		frame.setIconImage(Links.img.getImage());
 		this.contentPanel.setLayout(null);
 		frame.setContentPane(this.contentPanel);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -64,7 +62,10 @@ public class TakeFromCustomers extends JDialog {
 		contentPanel.add(nameField);
 		nameField.setColumns(10);
 		
-		frame.setBounds(300, 150, 675, 496);
+		this.x = PointLayout.startXPoints(this.frameWidth, this.frameHeight);
+		this.y = PointLayout.startYPoints(this.frameWidth, this.frameHeight);
+		
+		frame.setBounds(this.x, this.y, this.frameWidth, this.frameHeight);
 		frame.setVisible(true);
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
@@ -72,6 +73,7 @@ public class TakeFromCustomers extends JDialog {
 				frame.dispose();
 			}
 		});
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	
@@ -405,7 +407,8 @@ public class TakeFromCustomers extends JDialog {
 		JButton confirmButton = new JButton("Hoàn thành");
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				JDialog modalPrint = new JDialog(new JFrame(), true);
+				new PrintForm(modalPrint);
 			}
 		});
 		confirmButton.setFont(new Font("Tahoma", Font.BOLD, 14));

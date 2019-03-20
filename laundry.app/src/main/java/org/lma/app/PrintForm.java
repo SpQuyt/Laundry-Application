@@ -2,6 +2,10 @@ package org.lma.app;
 
 import java.awt.*;
 import javax.swing.*;
+
+import omg.lma.helpers.Links;
+import omg.lma.helpers.PointLayout;
+
 import java.awt.event.ActionListener;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
@@ -10,11 +14,9 @@ import java.awt.print.PrinterJob;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
-public class printForm extends JFrame {
+public class PrintForm extends JDialog {
 
 	private JPanel contentPanel;
-	private JFrame frame;
-	public ImageIcon img = new ImageIcon("./icon app.png");
 	private JLabel lblMSHa;
 	private JLabel lblThiGianLp;
 	private JLabel lblTnKhchHng;
@@ -30,12 +32,33 @@ public class printForm extends JFrame {
 	private JLabel label_5;
 	private JLabel label_6;
 	private JButton btnInHan;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		new printForm();
+	
+	private int frameWidth = 600;
+	private int frameHeight = 700;
+	private int x;
+	private int y;
+	
+	public void createFrame(final JDialog frame) {
+		frame.setTitle("Quick Laundry Management");
+		frame.setIconImage(Links.img.getImage());
+		this.contentPanel.setLayout(null);
+		frame.setContentPane(this.contentPanel);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		this.x = PointLayout.startXPoints(this.frameWidth, this.frameHeight);
+		this.y = PointLayout.startYPoints(this.frameWidth, this.frameHeight);
+		
+		frame.setBounds(this.x, this.y, this.frameWidth, this.frameHeight);
+		frame.setVisible(true);
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				frame.dispose();
+			}
+		});
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	
 	public void createTextpaneAndTextfield() {
@@ -151,29 +174,20 @@ public class printForm extends JFrame {
 		btnInHan.setBounds(435, 617, 139, 33);
 		contentPanel.add(btnInHan);
 	}
-
-	public void createFrame() {
-		this.frame = new JFrame();
-		this.frame.setTitle("Quick Laundry Management");
-		this.frame.setIconImage(img.getImage());
-		this.contentPanel.setLayout(null);
-		this.frame.setContentPane(this.contentPanel);
-		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.frame.getContentPane().setLayout(null);
-		
-		this.frame.setBounds(20, 20, 600, 700);
-		this.frame.setVisible(true);
-		this.frame.addWindowListener(new java.awt.event.WindowAdapter() {
-			@Override
-			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				frame.dispose();
-			}
-		});
-		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-	}
 	
-	public printForm() {
+	public PrintForm(JDialog modal) {
+		try {
+			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 		createTextpaneAndTextfield();
-		createFrame();
+		createFrame(modal);
 	}
 }
