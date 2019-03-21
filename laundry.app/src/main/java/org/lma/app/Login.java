@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import org.apache.http.NameValuePair;
 import org.json.*;
 import org.lma.model.*;
 import org.lma.online.*;
