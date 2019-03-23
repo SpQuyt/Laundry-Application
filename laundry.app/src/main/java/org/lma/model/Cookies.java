@@ -11,14 +11,14 @@ import org.json.JSONObject;
 import omg.lma.helpers.Links;
 
 public class Cookies {
-	public static void createCookieFile(JSONObject response) throws JSONException, IOException {
+	public static void createCookieFile(String username, String password) throws JSONException, IOException {
 		FileOutputStream out = new FileOutputStream("laundryCookies");
 		String space = " ";
-		out.write(response.getJSONObject("result").get("username").toString().getBytes());
+		out.write(username.getBytes());
 		out.write(space.getBytes());
-		out.write(response.getJSONObject("result").get("password").toString().getBytes());
-//		String lineBreak = "\n";
-//		out.write(lineBreak.getBytes());
+		out.write(password.getBytes());
+		String lineBreak = "\n";
+		out.write(lineBreak.getBytes());
 		out.close();
 	}
 	
@@ -40,22 +40,15 @@ public class Cookies {
 
 			String read;
 			while ((read = br.readLine()) != null) {
-//				if (read.compareTo("\n") == 0) {
-//					cookie += " ";
-//				}
 				cookie += read;
 			}
 			
 			username = cookie.split(" ")[0];
-			password = cookie.split(" ")[1];
 			
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	
-		System.out.println(username);
-		System.out.println(password);
 		
 		return username;
 	}
@@ -68,22 +61,14 @@ public class Cookies {
 
 			String read;
 			while ((read = br.readLine()) != null) {
-//				if (read.compareTo("\n") == 0) {
-//					cookie += " ";
-//				}
 				cookie += read;
 			}
-			
-			username = cookie.split(" ")[0];
 			password = cookie.split(" ")[1];
 			
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	
-		System.out.println(username);
-		System.out.println(password);
 		
 		return password;
 	}

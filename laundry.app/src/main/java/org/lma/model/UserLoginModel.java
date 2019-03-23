@@ -6,7 +6,7 @@ public class UserLoginModel {
 	private String username;
 	private String password;
 	private String fullname;
-	private String token;
+	private String objID;
 		
 	private int giatSay;
 	private int giatUot;
@@ -38,8 +38,8 @@ public class UserLoginModel {
 		return fullname;
 	}
 	
-	public String getToken() {
-		return token;
+	public String getObjID() {
+		return objID;
 	}
 	
 	public int getAoKhoacToTien() {
@@ -104,8 +104,8 @@ public class UserLoginModel {
 		this.fullname = fullname;
 	}
 	
-	public void setToken(String token) {
-		this.token = token;
+	public void setObjID(String objID) {
+		this.objID = objID;
 	}
 	
 	public void setGiatUotTien(int giatUot) {
@@ -117,10 +117,11 @@ public class UserLoginModel {
 	}
 		
 	
-	public void setInfo(JSONObject obj) {
+	public UserLoginModel(JSONObject obj) {
 		this.username = obj.getJSONObject("result").get("username").toString();
 		this.password = obj.getJSONObject("result").get("password").toString();
 		this.fullname = obj.getJSONObject("result").get("fullname").toString();
+		this.objID = obj.getJSONObject("result").getString("_id").toString();
 		
 		JSONObject price = obj.getJSONObject("result").getJSONObject("price");		
 		this.giatSay = Integer.parseInt(price.get("dry").toString());

@@ -12,6 +12,7 @@ import org.lma.online.*;
 import omg.lma.helpers.Cryptograph;
 import omg.lma.helpers.Links;
 import omg.lma.helpers.PointLayout;
+import omg.lma.helpers.Storage;
 
 import java.awt.event.*;
 
@@ -22,6 +23,7 @@ public class Login extends JFrame {
 	private JFrame frame;
 	private JTextField userField;
 	private JButton forgotPassword;
+	private static String md5Password;
 	private JPasswordField passField = new JPasswordField(20);
 	private int frameWidth = 500;
 	private int frameHeight = 380;
@@ -81,30 +83,34 @@ public class Login extends JFrame {
 
 		JButton login = new JButton("Đăng nhập");
 		login.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent arg0) {
 				JSONObject response = null;	
 				Boolean success = null;
+				Login.md5Password = Cryptograph.changeToMD5(String.valueOf(passField.getPassword()));
 				
 				try {
-					response = API.loginAPI(userField.getText(), Cryptograph.changeToMD5(String.valueOf(passField.getPassword())));
+					response = API.loginAPI(userField.getText(), Login.md5Password);
 					success = (Boolean) response.get("success");
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Không thể đăng nhập được!");
+					JOptionPane.showMessageDialog(null, "Không có kết nối Internet!");
 				} 
 				
 				if (!success) {
 					JOptionPane.showMessageDialog(null, "Không tìm được tài khoản và mật khẩu người dùng!");
 				}
 				else {
-					UserLoginModel newUserLogin = new UserLoginModel();
-					newUserLogin.setInfo(response);
+					UserLoginModel newUserLogin = new UserLoginModel(response);
+					
+					Storage.newUserLogin = newUserLogin;
+					Storage.objID = newUserLogin.getObjID();
 					try {
-						Cookies.createCookieFile(response);
+						Cookies.createCookieFile(userField.getText(), String.valueOf(passField.getPassword()));
 					} catch (Exception e1) {
 						
 					}
 					frame.dispose();
-					new Home(newUserLogin);
+					new Home();
 				}
 			}
 		});
@@ -134,30 +140,21 @@ public class Login extends JFrame {
 			e.printStackTrace();
 		}
 		
+		String userFromCookie = "";
+		String passFromCookie = "";
+		
 		if (Cookies.checkCookies()) {
-			JSONObject response = null;	
-			Boolean success = null;
-			
 			try {
-				response = API.loginAPI(Cookies.readCookieFileUsername(), Cookies.readCookieFilePassword());
-				success = (Boolean) response.get("success");
-				System.out.println("SUCCESS: " + success);
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Không thể đăng nhập được!");
-			} 
-			
-			if (!success) {
-				JOptionPane.showMessageDialog(null, "Không tìm được tài khoản và mật khẩu người dùng!");
-			}
-			else {
-				UserLoginModel newUserLogin = new UserLoginModel();
-				newUserLogin.setInfo(response);
-				new Home(newUserLogin);
+				userFromCookie = Cookies.readCookieFileUsername();
+				passFromCookie = Cookies.readCookieFilePassword();
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 		}
-		else {
-			createTextpaneAndTextfield();
-			createFrame();
-		}		
+		
+		createTextpaneAndTextfield();
+		createFrame();	
+		this.userField.setText(userFromCookie);
+		this.passField.setText(passFromCookie);
 	}
 }

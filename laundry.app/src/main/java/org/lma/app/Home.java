@@ -7,6 +7,7 @@ import org.quinto.swing.table.view.JBroTable;
 
 import omg.lma.helpers.Links;
 import omg.lma.helpers.PointLayout;
+import omg.lma.helpers.Storage;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -17,7 +18,6 @@ public class Home extends JFrame {
 	private JPanel contentPanel;
 	private JFrame frame;
 	private JBroTable table;
-	private static UserLoginModel user;
 	private JTabbedPane areaTab;
 	static boolean closed = true;
 	private int frameWidth = 1300;
@@ -37,7 +37,7 @@ public class Home extends JFrame {
 		JLabel fullName = new JLabel();
 		fullName.setHorizontalAlignment(SwingConstants.RIGHT);
 		fullName.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		fullName.setText(Home.user.getFullname());
+		fullName.setText(Storage.newUserLogin.getFullname());
 		fullName.setBounds(967, 26, 274, 35);
 		contentPanel.add(fullName);
 		
@@ -147,7 +147,7 @@ public class Home extends JFrame {
 		diaryPanel.setLayout(null);
 		areaTab.addTab("NHẬT KÝ HOÁ ĐƠN", null, diaryPanel, null);
 
-		this.table = DiaryTable.createTable();
+		this.table = DiaryTable.initTable();
 //		DiaryTable newTable = new DiaryTable(this.table);
 
 		JScrollPane jps = new JScrollPane(this.table);
@@ -155,7 +155,7 @@ public class Home extends JFrame {
 		diaryPanel.add(jps);
 	}
 
-	public Home(UserLoginModel newUser) {
+	public Home() {
 		try {
 			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
 		} catch (ClassNotFoundException e) {
@@ -167,7 +167,6 @@ public class Home extends JFrame {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		Home.user = newUser;
 		createTextpaneAndTextfield();
 		createAreaTab();
 		createOpenTab();
