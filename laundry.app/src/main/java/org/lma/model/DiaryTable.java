@@ -4,12 +4,13 @@ import java.awt.*;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.table.*;
 
 import org.json.*;
 import org.lma.online.*;
-import org.quinto.swing.table.model.*;
-import org.quinto.swing.table.view.*;
 
+import io.github.qualtagh.swing.table.model.*;
+import io.github.qualtagh.swing.table.view.*;
 import omg.lma.helpers.Storage;
 
 public class DiaryTable {
@@ -17,99 +18,64 @@ public class DiaryTable {
 	@SuppressWarnings("rawtypes")
 	public static ArrayList dataTable = new ArrayList();;
 	
-	public static void main(String[] args) {
-		DiaryTable.getDataTable();
-	}
+//	public static void main(String[] args) {
+//		DiaryTable.getDataTable();
+//	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static ArrayList getDataTable() {
 		
-		
-		
-//		dataTable[0] = {{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"}};
-//		
-//		dataTable = {
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//				{"1", "1234", "KH1","4","","4","","","","","1","","","220000","Đã thanh toán"},
-//		};
-		
 		JSONObject response = null;
 		Boolean success = null;
 		
-		try {
-			response = API.getBillAPI(Storage.objID);
-			success = (Boolean) response.get("success");
-		} catch (Exception e){
-			JOptionPane.showMessageDialog(null, "Không có kết nối Internet!");
-		}
-		
-		if (!success) {
-			JOptionPane.showMessageDialog(null, "Không có nhật ký hoá đơn!");
-		}
-		else {
-			JSONArray jsonArray = (JSONArray) response.get("result");
-			
-			for (int i = 0; i < response.length(); i++) {
-				ArrayList<String> list = new ArrayList<String>();
-				JSONObject obj = (JSONObject) jsonArray.get(i);
-				System.out.println((JSONObject) jsonArray.get(i));
-				list.add("" + (i+1));
-				list.add(((JSONObject) jsonArray.get(i)).get("billID").toString());
-				list.add(((JSONObject) jsonArray.get(i)).get("name").toString());
-				list.add(((JSONObject) jsonArray.get(i)).getJSONObject("services").get("dry").toString());
-				list.add(((JSONObject) jsonArray.get(i)).getJSONObject("services").get("wet").toString());
-				list.add(((JSONObject) jsonArray.get(i)).getJSONObject("services").getJSONObject("jacket").get("big").toString());
-				list.add(((JSONObject) jsonArray.get(i)).getJSONObject("services").getJSONObject("jacket").get("medium").toString());
-				list.add(((JSONObject) jsonArray.get(i)).getJSONObject("services").getJSONObject("jacket").get("small").toString());
-				list.add(((JSONObject) jsonArray.get(i)).getJSONObject("services").getJSONObject("blanket").get("big").toString());
-				list.add(((JSONObject) jsonArray.get(i)).getJSONObject("services").getJSONObject("blanket").get("medium").toString());
-				list.add(((JSONObject) jsonArray.get(i)).getJSONObject("services").getJSONObject("blanket").get("small").toString());
-				list.add(((JSONObject) jsonArray.get(i)).getJSONObject("services").getJSONObject("others").get("name").toString());
-				list.add(((JSONObject) jsonArray.get(i)).getJSONObject("services").getJSONObject("others").get("total").toString());
-				list.add(((JSONObject) jsonArray.get(i)).get("money").toString());
-				if (((JSONObject) jsonArray.get(i)).get("purchased").toString().compareTo("true") == 0) {
-					list.add("Đã thanh toán");
-				}
-				else {
-					list.add("");
-				}
-				
-				dataTable.add(list);
-				
+		if (table == null) {
+			try {
+				response = API.getBillAPI(Storage.objID);
+				success = (Boolean) response.get("success");
+			} catch (Exception e){
+				JOptionPane.showMessageDialog(null, "Không có kết nối Internet!");
 			}
 			
+			if (!success) {
+				JOptionPane.showMessageDialog(null, "Không có nhật ký hoá đơn!");
+			}
+			else {
+				JSONArray jsonArray = (JSONArray) response.get("result");
+				
+				for (int i = 0; i < response.length(); i++) {
+					ArrayList<String> list = new ArrayList<String>();
+					JSONObject obj = (JSONObject) jsonArray.get(i);
+					
+					list.add("" + (i+1));
+					list.add(obj.get("billID").toString());
+					list.add(obj.get("name").toString());
+					list.add(obj.getJSONObject("services").get("dry").toString());
+					list.add(obj.getJSONObject("services").get("wet").toString());
+					list.add(obj.getJSONObject("services").getJSONObject("jacket").get("big").toString());
+					list.add(obj.getJSONObject("services").getJSONObject("jacket").get("medium").toString());
+					list.add(obj.getJSONObject("services").getJSONObject("jacket").get("small").toString());
+					list.add(obj.getJSONObject("services").getJSONObject("blanket").get("big").toString());
+					list.add(obj.getJSONObject("services").getJSONObject("blanket").get("medium").toString());
+					list.add(obj.getJSONObject("services").getJSONObject("blanket").get("small").toString());
+					list.add(obj.getJSONObject("services").getJSONObject("others").get("name").toString());
+					list.add(obj.getJSONObject("services").getJSONObject("others").get("total").toString());
+					list.add(obj.get("money").toString());
+					if (obj.get("purchased").toString().compareTo("true") == 0) {
+						list.add("Đã thanh toán");
+					}
+					else {
+						list.add("");
+					}
+					
+					dataTable.add(list);
+				}
+			}	
 		}
 		
 		return dataTable;
 	}
 	
+	@SuppressWarnings("serial")
 	public static void configTable(JBroTable table) {
 		table.getTableHeader().getUI().setCustomRenderer(new CustomTableHeaderRenderer() {
 			public Component getTableCellRendererComponent( Component originalComponent, JBroTable table, Object value, boolean isSelected, boolean hasFocus, boolean isDragged, int row, int viewColumn, int modelColumn, IModelFieldGroup dataField ) {
@@ -142,6 +108,18 @@ public class DiaryTable {
 				  ret.setBackground("*".equals(fieldName) ? null : Color.decode("#c1cedb"));
 				  return ret;
 			}
+		});
+//		table.getTableHeader().setResizingAllowed( false );
+		table.getTableHeader().setReorderingAllowed( false );
+		
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+		    @Override
+		    public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column ) {
+		        DefaultTableCellRenderer cellComponent = ( DefaultTableCellRenderer )super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
+		        Object columnId = table.getColumnModel().getColumn( column ).getIdentifier();
+		        cellComponent.setHorizontalAlignment( columnId.equals( "*" ) ? SwingConstants.LEFT : SwingConstants.RIGHT );
+		        return cellComponent;
+		    }
 		});
 	}
 	

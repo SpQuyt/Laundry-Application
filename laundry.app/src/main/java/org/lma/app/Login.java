@@ -93,7 +93,7 @@ public class Login extends JFrame {
 					response = API.loginAPI(userField.getText(), Login.md5Password);
 					success = (Boolean) response.get("success");
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Không có kết nối Internet!");
+					JOptionPane.showMessageDialog(null, "Không kết nối được tới máy chủ!");
 				} 
 				
 				if (!success) {
@@ -104,6 +104,7 @@ public class Login extends JFrame {
 					
 					Storage.newUserLogin = newUserLogin;
 					Storage.objID = newUserLogin.getObjID();
+					
 					try {
 						Cookies.createCookieFile(userField.getText(), String.valueOf(passField.getPassword()));
 					} catch (Exception e1) {

@@ -3,8 +3,8 @@ package org.lma.app;
 import java.awt.*;
 
 import org.lma.model.*;
-import org.quinto.swing.table.view.JBroTable;
 
+import io.github.qualtagh.swing.table.view.JBroTable;
 import omg.lma.helpers.Links;
 import omg.lma.helpers.PointLayout;
 import omg.lma.helpers.Storage;
