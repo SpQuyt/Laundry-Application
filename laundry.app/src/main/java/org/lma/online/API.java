@@ -6,8 +6,10 @@ import java.util.*;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.*;
+import org.lma.model.BillModel;
 
 import omg.lma.helpers.Links;
+import omg.lma.helpers.Storage;
 
 public class API {
 	
@@ -28,7 +30,6 @@ public class API {
 			while ((result = in.readLine()) != null) {
 			    output = result.replace("[", "").replace("]", "");
 			}
-			System.out.println("");
 			response = new JSONObject(output); 
 			in.close();
 		} catch (Exception e1) {
@@ -44,7 +45,6 @@ public class API {
 		
 		//create JSON response
 		JSONObject response = null;
-		JSONArray array = null;
 		
 		//send POST request to server
 		try {
@@ -52,8 +52,6 @@ public class API {
 			String result ="";
 			String output = null;
 			while ((result = in.readLine()) != null) {
-//				System.out.print("BILL" + result);
-//			    output = result.replace("[", "").replace("]", "");
 				output = result;
 			}
 			response = new JSONObject(output);
@@ -63,7 +61,48 @@ public class API {
 			e1.printStackTrace();
 		}
 		
-//		System.out.println("BILL  " + response.getJSONObject("result"));
+		return response;
+	}
+	
+	public static JSONObject updateBillAPI(BillModel newBill){
+		//add params
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("billID", newBill.getBillID()));
+		params.add(new BasicNameValuePair("userID", Storage.newUserLogin.getObjID()));
+		params.add(new BasicNameValuePair("name", newBill.getName()));
+		params.add(new BasicNameValuePair("dry", Integer.toString(newBill.getDry())));
+		params.add(new BasicNameValuePair("wet", Integer.toString(newBill.getWet())));
+		params.add(new BasicNameValuePair("jacketBig", Integer.toString(newBill.getJacketBig())));
+		params.add(new BasicNameValuePair("jacketMedium", Integer.toString(newBill.getJacketMedium())));
+		params.add(new BasicNameValuePair("jacketSmall", Integer.toString(newBill.getJacketSmall())));
+		params.add(new BasicNameValuePair("blanketBig", Integer.toString(newBill.getBlanketBig())));
+		params.add(new BasicNameValuePair("blanketMedium", Integer.toString(newBill.getBlanketMedium())));
+		params.add(new BasicNameValuePair("blanketSmall", Integer.toString(newBill.getBlanketSmall())));
+		params.add(new BasicNameValuePair("otherName", newBill.getOthersName()));
+		
+		System.out.println(newBill.getOthersTotal());
+		params.add(new BasicNameValuePair("otherTotal", Long.toString(newBill.getOthersTotal())));
+		params.add(new BasicNameValuePair("money", Long.toString(newBill.getMoney())));
+		params.add(new BasicNameValuePair("purchased", Boolean.toString(newBill.isPurchased())));
+		
+		//create JSON response
+		JSONObject response = null;
+		
+		//send POST request to server
+		try {
+			BufferedReader in = ConnectServer.sendPost(params, Links.urlInsertBillServer);
+			String result ="";
+			String output = null;
+			while ((result = in.readLine()) != null) {
+				output = result;
+			}
+			response = new JSONObject(output);
+			
+			in.close();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
 		return response;
 	}
 	

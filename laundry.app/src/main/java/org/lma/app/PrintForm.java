@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import omg.lma.helpers.Links;
 import omg.lma.helpers.PointLayout;
+import omg.lma.helpers.Storage;
 
 import java.awt.event.ActionListener;
 import java.awt.print.PageFormat;
@@ -17,26 +18,28 @@ import java.awt.event.ActionEvent;
 public class PrintForm extends JDialog {
 
 	private JPanel contentPanel;
-	private JLabel lblMSHa;
-	private JLabel lblThiGianLp;
-	private JLabel lblTnKhchHng;
-	private JLabel lblDchVGit;
-	private JLabel lblThanhTon;
-	private JLabel lblDchVGit_1;
-	private JLabel lblDchVGit_2;
-	private JLabel label;
-	private JLabel label_1;
-	private JLabel label_2;
-	private JLabel label_3;
-	private JLabel label_4;
-	private JLabel label_5;
-	private JLabel label_6;
+	private JLabel code1;
+	private JLabel timestamp1;
+	private JLabel name1;
+	private JLabel dvc1;
+	private JLabel purchase1;
+	private JLabel dvp1;
+	private JLabel dvk1;
+	private JLabel purchase2;
+	private JLabel dvk2;
+	private JLabel dvp2;
+	private JLabel dvc2;
+	private JLabel name2;
+	private JLabel timestamp2;
+	private JLabel code2;
 	private JButton btnInHan;
 	
 	private int frameWidth = 600;
 	private int frameHeight = 700;
 	private int x;
 	private int y;
+	private JLabel dvk2F;
+	private JLabel purchase2F;
 	
 	public void createFrame(final JDialog frame) {
 		frame.setTitle("Quick Laundry Management");
@@ -69,61 +72,123 @@ public class PrintForm extends JDialog {
 		printPanel.setLayout(null);
 		contentPanel.add(printPanel);
 		
-		lblMSHa = new JLabel("Mã số hóa đơn");
-		lblMSHa.setBounds(31, 11, 85, 31);
-		printPanel.add(lblMSHa);
+		code1 = new JLabel("Mã số hóa đơn");
+		code1.setBounds(31, 11, 85, 31);
+		printPanel.add(code1);
 		
-		lblThiGianLp = new JLabel("Thời gian lập hóa đơn");
-		lblThiGianLp.setBounds(31, 39, 132, 31);
-		printPanel.add(lblThiGianLp);
+		timestamp1 = new JLabel("Thời gian lập hóa đơn");
+		timestamp1.setBounds(31, 39, 132, 31);
+		printPanel.add(timestamp1);
 		
-		lblTnKhchHng = new JLabel("Tên Khách Hàng");
-		lblTnKhchHng.setBounds(31, 70, 115, 31);
-		printPanel.add(lblTnKhchHng);
+		name1 = new JLabel("Tên Khách Hàng");
+		name1.setBounds(31, 70, 115, 31);
+		printPanel.add(name1);
 		
-		lblDchVGit = new JLabel("Dịch vụ giặt chính");
-		lblDchVGit.setBounds(31, 112, 103, 31);
-		printPanel.add(lblDchVGit);
+		dvc1 = new JLabel("Dịch vụ giặt chính");
+		dvc1.setBounds(31, 112, 103, 31);
+		printPanel.add(dvc1);
 		
-		lblThanhTon = new JLabel("Thanh toán");
-		lblThanhTon.setBounds(31, 238, 103, 31);
-		printPanel.add(lblThanhTon);
+		purchase1 = new JLabel("Thanh toán");
+		purchase1.setBounds(31, 238, 103, 31);
+		printPanel.add(purchase1);
 		
-		lblDchVGit_1 = new JLabel("Dịch vụ giặt phụ");
-		lblDchVGit_1.setBounds(31, 154, 103, 31);
-		printPanel.add(lblDchVGit_1);
+		dvp1 = new JLabel("Dịch vụ giặt phụ");
+		dvp1.setBounds(31, 154, 103, 31);
+		printPanel.add(dvp1);
 		
-		lblDchVGit_2 = new JLabel("Dịch vụ giặt khác");
-		lblDchVGit_2.setBounds(31, 196, 103, 31);
-		printPanel.add(lblDchVGit_2);
+		dvk1 = new JLabel("Dịch vụ giặt khác");
+		dvk1.setBounds(31, 196, 103, 31);
+		printPanel.add(dvk1);
 		
-		label = new JLabel("Thanh toán");
-		label.setBounds(31, 548, 103, 31);
-		printPanel.add(label);
+		purchase2 = new JLabel("Thanh toán");
+		purchase2.setBounds(31, 548, 103, 31);
+		printPanel.add(purchase2);
 		
-		label_1 = new JLabel("Dịch vụ giặt khác");
-		label_1.setBounds(31, 506, 103, 31);
-		printPanel.add(label_1);
+		dvk2 = new JLabel("Dịch vụ giặt khác");
+		dvk2.setBounds(31, 506, 103, 31);
+		printPanel.add(dvk2);
 		
-		label_2 = new JLabel("Dịch vụ giặt phụ");
-		label_2.setBounds(31, 460, 103, 31);
-		printPanel.add(label_2);
+		dvp2 = new JLabel("Dịch vụ giặt phụ");
+		dvp2.setBounds(31, 460, 103, 31);
+		printPanel.add(dvp2);
 		
-		label_3 = new JLabel("Dịch vụ giặt chính");
-		label_3.setBounds(31, 418, 103, 31);
-		printPanel.add(label_3);
+		dvc2 = new JLabel("Dịch vụ giặt chính");
+		dvc2.setBounds(31, 418, 103, 31);
+		printPanel.add(dvc2);
 		
-		label_4 = new JLabel("Tên Khách Hàng");
-		label_4.setBounds(31, 380, 115, 31);
-		printPanel.add(label_4);
+		name2 = new JLabel("Tên Khách Hàng");
+		name2.setBounds(31, 380, 115, 31);
+		printPanel.add(name2);
 		
-		label_5 = new JLabel("Thời gian lập hóa đơn");
-		label_5.setBounds(31, 351, 132, 31);
-		printPanel.add(label_5);
+		timestamp2 = new JLabel("Thời gian lập hóa đơn");
+		timestamp2.setBounds(31, 351, 132, 31);
+		printPanel.add(timestamp2);
 		
-		label_6 = new JLabel("Mã số hóa đơn");
-		label_6.setBounds(31, 321, 85, 31);
-		printPanel.add(label_6);
+		code2 = new JLabel("Mã số hóa đơn");
+		code2.setBounds(31, 321, 85, 31);
+		printPanel.add(code2);
+		
+		JLabel code1F = new JLabel(Storage.newBill.getBillID());
+		code1F.setBounds(233, 11, 277, 23);
+		printPanel.add(code1F);
+		
+		JLabel timestamp1F = new JLabel("");
+		timestamp1F.setBounds(233, 39, 277, 23);
+		printPanel.add(timestamp1F);
+		
+		JLabel name1F = new JLabel(Storage.newBill.getName());
+		name1F.setBounds(233, 70, 277, 23);
+		printPanel.add(name1F);
+		
+		JLabel dvc1F = new JLabel(Storage.newBill.getDry() + "kg sấy, " + Storage.newBill.getWet() + "kg ướt");
+		dvc1F.setBounds(233, 120, 277, 23);
+		printPanel.add(dvc1F);
+		
+		int jB = Storage.newBill.getJacketBig(), jM = Storage.newBill.getJacketMedium(), jS = Storage.newBill.getJacketSmall(),
+				bB = Storage.newBill.getBlanketBig(), bM = Storage.newBill.getBlanketMedium(), bS = Storage.newBill.getBlanketSmall();
+		
+		
+		JLabel dvp1F = new JLabel((jB == 0 ? "" : jB + "kg áo khoác to, ") + (jM == 0 ? "" : jM + "kg áo khoác vừa, ") + (jS == 0 ? "" : jS + "kg áo khoác nhỏ, ")
+				+ (bB == 0 ? "" : bB + "kg chăn to, ") + (bM == 0 ? "" : bM + "kg chăn vừa, ") + (bS == 0 ? "" : bS + "kg chăn nhỏ, "));
+		dvp1F.setBounds(233, 162, 277, 23);
+		printPanel.add(dvp1F);
+		
+		JLabel dvk1F = new JLabel(Storage.newBill.getOthersName());
+		dvk1F.setBounds(233, 204, 277, 23);
+		printPanel.add(dvk1F);
+		
+		JLabel purchase1F = new JLabel(Storage.newBill.getMoney() + " đồng, " + (Storage.newBill.isPurchased() == true ? "trả trước" : "trả sau"));
+		purchase1F.setBounds(233, 246, 277, 23);
+		printPanel.add(purchase1F);
+		
+		JLabel code2F = new JLabel(Storage.newBill.getBillID());
+		code2F.setBounds(233, 321, 277, 23);
+		printPanel.add(code2F);
+		
+		JLabel timestamp2F = new JLabel("");
+		timestamp2F.setBounds(233, 351, 277, 23);
+		printPanel.add(timestamp2F);
+		
+		JLabel name2F = new JLabel(Storage.newBill.getName());
+		name2F.setBounds(233, 388, 277, 23);
+		printPanel.add(name2F);
+		
+		JLabel dvc2F = new JLabel(Storage.newBill.getDry() + "kg sấy, " + Storage.newBill.getWet() + "kg ướt");
+		dvc2F.setBounds(233, 426, 277, 23);
+		printPanel.add(dvc2F);
+		
+		JLabel dvp2F = new JLabel((jB == 0 ? "" : jB + "kg áo khoác to, ") + (jM == 0 ? "" : jM + "kg áo khoác vừa, ") + (jS == 0 ? "" : jS + "kg áo khoác nhỏ, ")
+				+ (bB == 0 ? "" : bB + "kg chăn to, ") + (bM == 0 ? "" : bM + "kg chăn vừa, ") + (bS == 0 ? "" : bS + "kg chăn nhỏ, "));
+		dvp2F.setBounds(233, 468, 277, 23);
+		printPanel.add(dvp2F);
+		
+		dvk2F = new JLabel(Storage.newBill.getOthersName());
+		dvk2F.setBounds(233, 514, 277, 23);
+		printPanel.add(dvk2F);
+		
+		purchase2F = new JLabel(Storage.newBill.getMoney() + " đồng, " + (Storage.newBill.isPurchased() == true ? "trả trước" : "trả sau"));
+		purchase2F.setBounds(233, 556, 277, 23);
+		printPanel.add(purchase2F);
 		
 		btnInHan = new JButton("In hóa đơn");
 		btnInHan.addActionListener(new ActionListener() {
@@ -168,6 +233,8 @@ public class PrintForm extends JDialog {
 						ex.printStackTrace();
 					}
 				}
+				
+				Storage.billCounter++;
 			}
 		});
 		btnInHan.setFont(new Font("Tahoma", Font.BOLD, 16));

@@ -3,14 +3,20 @@ package org.lma.app;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.text.PlainDocument;
 
-import omg.lma.helpers.Links;
-import omg.lma.helpers.PointLayout;
+import org.json.JSONObject;
+import org.lma.model.*;
+import org.lma.online.API;
+
+import omg.lma.helpers.*;
 
 @SuppressWarnings("serial")
 public class TakeFromCustomers extends JDialog {
 
 	private JPanel contentPanel, dvChinh, dvPhu, dvKhac, thanhToan;
+	private JRadioButton weightFirst1, weightFirst2, weightAfter1, weightAfter2;
+	private JCheckBox check1, check2;
 	private JTextField nameField;
 	private JTextField weightField1;
 	private JTextField weightField2;
@@ -29,21 +35,16 @@ public class TakeFromCustomers extends JDialog {
 	private JLabel vua2;
 	private JLabel nho2;
 	private JLabel tenDV;
-	private JTextField textField;
+	private JTextField tenDVField;
 	private JLabel soTien;
-	private JTextField textField_1;
-	private JRadioButton traTruoc;
-	private JRadioButton traSau;
-	private JLabel totalAmount;
+	private JTextField soTienField;
 	private JLabel numberTotal;
-	private int numberTotalAmount = 0;
-	private JButton printButton;
 	
 	private int frameWidth = 675;
 	private int frameHeight = 496;
 	private int x;
 	private int y;
-
+	
 	public void createFrame(final JDialog frame) {
 		frame.setTitle("Quick Laundry Management");
 		frame.setIconImage(Links.img.getImage());
@@ -98,7 +99,7 @@ public class TakeFromCustomers extends JDialog {
 		tabbedPane.addTab("DỊCH VỤ GIẶT CHÍNH", null, dvChinh, null);
 		
 		///////////////////////////////////////////////////////////////////////GROUP BUTTON 1
-		final JCheckBox check1 = new JCheckBox(" Khối lượng giặt sấy");
+		check1 = new JCheckBox(" Khối lượng giặt sấy");
 		check1.setFont(new Font("Times New Roman", Font.PLAIN, 22));
 		check1.setBounds(17, 51, 213, 35);
 		dvChinh.add(check1);
@@ -107,8 +108,9 @@ public class TakeFromCustomers extends JDialog {
 		weightField1.setBounds(320, 37, 126, 20);
 		dvChinh.add(weightField1);
 		weightField1.setColumns(10);
+		((PlainDocument) weightField1.getDocument()).setDocumentFilter(new MyIntFilter());
 		
-		final JRadioButton weightAfter1 = new JRadioButton("Cân sau");
+		weightAfter1 = new JRadioButton("Cân sau");
 		weightAfter1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				weightField1.setEnabled(false);
@@ -117,7 +119,7 @@ public class TakeFromCustomers extends JDialog {
 		weightAfter1.setBounds(230, 77, 84, 23);
 		dvChinh.add(weightAfter1);
 		
-		final JRadioButton weightFirst1 = new JRadioButton("Cân trước");
+		weightFirst1 = new JRadioButton("Cân trước");
 		weightFirst1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				weightField1.setEnabled(true);
@@ -146,12 +148,12 @@ public class TakeFromCustomers extends JDialog {
 		group1.add(weightAfter1);
 		
 		////////////////////////////////////////////////////////////////////////GROUP BUTTON 2
-		final JCheckBox check2 = new JCheckBox(" Khối lượng giặt ướt");
+		check2 = new JCheckBox(" Khối lượng giặt ướt");
 		check2.setFont(new Font("Times New Roman", Font.PLAIN, 22));
 		check2.setBounds(15, 155, 213, 35);
 		dvChinh.add(check2);
 		
-		final JRadioButton weightFirst2 = new JRadioButton("Cân trước");
+		weightFirst2 = new JRadioButton("Cân trước");
 		weightFirst2.setBounds(230, 143, 84, 23);
 		weightFirst2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -164,8 +166,9 @@ public class TakeFromCustomers extends JDialog {
 		weightField2.setColumns(10);
 		weightField2.setBounds(320, 143, 126, 20);
 		dvChinh.add(weightField2);
+		((PlainDocument) weightField2.getDocument()).setDocumentFilter(new MyIntFilter());
 		
-		final JRadioButton weightAfter2 = new JRadioButton("Cân sau");
+		weightAfter2 = new JRadioButton("Cân sau");
 		weightAfter2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				weightField2.setEnabled(true);
@@ -235,16 +238,19 @@ public class TakeFromCustomers extends JDialog {
 		to1Field.setColumns(10);
 		to1Field.setBounds(309, 11, 126, 20);
 		dvPhu.add(to1Field);
+		((PlainDocument) to1Field.getDocument()).setDocumentFilter(new MyIntFilter());
 		
 		vua1Field = new JTextField();
 		vua1Field.setColumns(10);
 		vua1Field.setBounds(309, 37, 126, 20);
 		dvPhu.add(vua1Field);
+		((PlainDocument) vua1Field.getDocument()).setDocumentFilter(new MyIntFilter());
 		
 		nho1Field = new JTextField();
 		nho1Field.setColumns(10);
 		nho1Field.setBounds(309, 63, 126, 20);
 		dvPhu.add(nho1Field);
+		((PlainDocument) nho1Field.getDocument()).setDocumentFilter(new MyIntFilter());
 		
 		chan = new JCheckBox(" Giặt chăn");
 		chan.setFont(new Font("Times New Roman", Font.PLAIN, 22));
@@ -255,16 +261,19 @@ public class TakeFromCustomers extends JDialog {
 		to2Field.setColumns(10);
 		to2Field.setBounds(309, 128, 126, 20);
 		dvPhu.add(to2Field);
+		((PlainDocument) to2Field.getDocument()).setDocumentFilter(new MyIntFilter());
 		
 		vua2Field = new JTextField();
 		vua2Field.setColumns(10);
 		vua2Field.setBounds(309, 154, 126, 20);
 		dvPhu.add(vua2Field);
+		((PlainDocument) vua2Field.getDocument()).setDocumentFilter(new MyIntFilter());
 		
 		nho2Field = new JTextField();
 		nho2Field.setColumns(10);
 		nho2Field.setBounds(309, 180, 126, 20);
 		dvPhu.add(nho2Field);
+		((PlainDocument) nho2Field.getDocument()).setDocumentFilter(new MyIntFilter());
 		
 		to1 = new JLabel("To");
 		to1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
@@ -363,20 +372,21 @@ public class TakeFromCustomers extends JDialog {
 		tenDV.setBounds(56, 37, 126, 20);
 		dvKhac.add(tenDV);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(205, 24, 224, 54);
-		dvKhac.add(textField);
+		tenDVField = new JTextField();
+		tenDVField.setColumns(10);
+		tenDVField.setBounds(205, 24, 224, 54);
+		dvKhac.add(tenDVField);
 		
 		soTien = new JLabel("Số tiền");
 		soTien.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		soTien.setBounds(56, 168, 126, 20);
 		dvKhac.add(soTien);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(205, 170, 126, 20);
-		dvKhac.add(textField_1);
+		soTienField = new JTextField();
+		soTienField.setColumns(10);
+		soTienField.setBounds(205, 170, 126, 20);
+		dvKhac.add(soTienField);
+		((PlainDocument) soTienField.getDocument()).setDocumentFilter(new MyIntFilter());
 	}
 	
 	public void createThanhToan(JTabbedPane tabbedPane) {
@@ -384,29 +394,49 @@ public class TakeFromCustomers extends JDialog {
 		thanhToan.setLayout(null);
 		tabbedPane.addTab("THANH TOÁN TIỀN", null, thanhToan, null);
 		
-		traTruoc = new JRadioButton("Trả trước");
-		traTruoc.setSelected(true);
-		traTruoc.setBounds(335, 35, 84, 23);
-		thanhToan.add(traTruoc);
-		
-		traSau = new JRadioButton("Trả sau");
-		traSau.setBounds(335, 99, 84, 23);
-		thanhToan.add(traSau);
-		
-		totalAmount = new JLabel("TỔNG SỐ TIỀN THANH TOÁN");
-		totalAmount.setFont(new Font("Tahoma", Font.BOLD, 16));
-		totalAmount.setBounds(27, 23, 260, 43);
-		thanhToan.add(totalAmount);
-		
 		numberTotal = new JLabel("");
 		numberTotal.setFont(new Font("Tahoma", Font.BOLD, 16));
 		numberTotal.setBounds(27, 87, 260, 43);
-		numberTotal.setText(numberTotalAmount + " đồng");
+		numberTotal.setText(0 + " đồng");
 		thanhToan.add(numberTotal);
 		
-		JButton confirmButton = new JButton("Hoàn thành");
+		JButton totalAmount = new JButton("TỔNG SỐ TIỀN THANH TOÁN");
+		totalAmount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				numberTotal.setText(calculateTotal() + " đồng");
+			}
+		});
+		totalAmount.setFont(new Font("Tahoma", Font.BOLD, 14));
+		totalAmount.setBounds(24, 29, 260, 43);
+		thanhToan.add(totalAmount);
+		
+		JButton confirmButton = new JButton("Xem hoá đơn");
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				BillModel newBill = new BillModel(nameField, weightField1, weightField2, 
+						to1Field, vua1Field, nho1Field, to2Field, vua2Field, nho2Field,
+						tenDVField, soTienField, calculateTotal(), check1, check2, 
+						weightAfter1, weightAfter2);
+
+				Storage.newBill = newBill;
+				JSONObject response = null;
+				Boolean success = null;
+				
+				
+				try {
+					response = API.updateBillAPI(newBill);
+					success = (Boolean) response.get("success");
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Không kết nối được tới máy chủ!");
+				} 
+				
+				if (!success) {
+					JOptionPane.showMessageDialog(null, "Không tìm được tài khoản và mật khẩu người dùng!");
+				}
+				else {
+					
+				}
+				
 				JDialog modalPrint = new JDialog(new JFrame(), true);
 				new PrintForm(modalPrint);
 			}
@@ -414,11 +444,80 @@ public class TakeFromCustomers extends JDialog {
 		confirmButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		confirmButton.setBounds(310, 168, 159, 43);
 		thanhToan.add(confirmButton);
+	}
+	
+	public long calculateTotal() {
+		int dry, wet, jBig, jMedium,jSmall, bBig, bMedium, bSmall, oTotal;
 		
-		printButton = new JButton("Xem hóa đơn");
-		printButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		printButton.setBounds(128, 168, 159, 43);
-		thanhToan.add(printButton);
+		/////////////////////////////////////////////////////////////////////////////Wet and Dry
+		if (weightField1.getText() == null || weightField1.getText().compareTo("") == 0) {
+			dry = 0;
+		}
+		else {
+			dry = Integer.parseInt(weightField1.getText()) * Storage.newUserLogin.getGiatSayTien();
+		}
+		
+		if (weightField2.getText() == null || weightField2.getText().compareTo("") == 0) {
+			wet = 0;
+		}
+		else {
+			wet = Integer.parseInt(weightField2.getText()) * Storage.newUserLogin.getGiatUotTien();
+		}
+		
+		///////////////////////////////////////////////////////////////////////////jacket
+		if (to1Field.getText() == null || to1Field.getText().compareTo("") == 0) {
+			jBig = 0;
+		}
+		else {
+			jBig = Integer.parseInt(to1Field.getText()) * Storage.newUserLogin.getAoKhoacToTien();
+		}
+		
+		if (vua1Field.getText() == null || vua1Field.getText().compareTo("") == 0) {
+			jMedium = 0;
+		}
+		else {
+			jMedium = Integer.parseInt(vua1Field.getText()) * Storage.newUserLogin.getAoKhoacVuaTien();
+		}
+		
+		if (nho1Field.getText() == null || nho1Field.getText().compareTo("") == 0) {
+			jSmall = 0;
+		}
+		else {
+			jSmall = Integer.parseInt(nho1Field.getText()) * Storage.newUserLogin.getAoKhoacNhoTien();
+		}
+		
+		//////////////////////////////////////////////////////////////////////////blanket
+		if (to2Field.getText() == null || to2Field.getText().compareTo("") == 0) {
+			bBig = 0;
+		}
+		else {
+			bBig = Integer.parseInt(to2Field.getText()) * Storage.newUserLogin.getChanToTien();
+		}
+		
+		if (vua2Field.getText() == null || vua2Field.getText().compareTo("") == 0) {
+			bMedium = 0;
+		}
+		else {
+			bMedium = Integer.parseInt(vua2Field.getText()) * Storage.newUserLogin.getChanVuaTien();
+		}
+		
+		if (nho2Field.getText() == null || nho2Field.getText().compareTo("") == 0) {
+			bSmall = 0;
+		}
+		else {
+			bSmall = Integer.parseInt(nho2Field.getText()) * Storage.newUserLogin.getChanNhoTien();
+		}
+		
+		////////////////////////////////////////////////////////////////others
+		
+		if (soTienField.getText() == null || soTienField.getText().compareTo("") == 0) {
+			oTotal = 0;
+		}
+		else {
+			oTotal = Integer.parseInt(soTienField.getText());
+		}
+		
+		return wet + dry + jBig + jMedium + jSmall + bBig + bMedium + bSmall + oTotal;
 	}
 	
 	public TakeFromCustomers(JDialog modal) {

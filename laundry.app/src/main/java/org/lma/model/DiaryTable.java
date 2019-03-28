@@ -36,10 +36,7 @@ public class DiaryTable {
 				JOptionPane.showMessageDialog(null, "Không có kết nối Internet!");
 			}
 			
-			if (!success) {
-				JOptionPane.showMessageDialog(null, "Không có nhật ký hoá đơn!");
-			}
-			else {
+			if (success) {
 				JSONArray jsonArray = (JSONArray) response.get("result");
 				
 				for (int i = 0; i < response.length(); i++) {
@@ -69,7 +66,7 @@ public class DiaryTable {
 					
 					dataTable.add(list);
 				}
-			}	
+			}
 		}
 		
 		return dataTable;

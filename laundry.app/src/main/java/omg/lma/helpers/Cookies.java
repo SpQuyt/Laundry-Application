@@ -1,4 +1,4 @@
-package org.lma.model;
+package omg.lma.helpers;
 
 import java.io.*;
 import java.util.List;
@@ -7,8 +7,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import omg.lma.helpers.Links;
 
 public class Cookies {
 	public static void createCookieFile(String username, String password) throws JSONException, IOException {
