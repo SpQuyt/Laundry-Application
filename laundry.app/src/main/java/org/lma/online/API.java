@@ -1,6 +1,6 @@
 package org.lma.online;
 
-import java.io.BufferedReader;
+import java.io.BufferedReade;
 import java.util.*;
 
 import org.apache.http.NameValuePair;
