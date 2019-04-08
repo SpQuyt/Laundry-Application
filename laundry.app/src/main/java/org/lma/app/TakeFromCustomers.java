@@ -6,10 +6,14 @@ import javax.swing.*;
 import javax.swing.text.PlainDocument;
 
 import org.json.JSONObject;
+import org.lma.helpers.Links;
+import org.lma.helpers.MyIntFilter;
+import org.lma.helpers.PointLayout;
+import org.lma.helpers.Storage;
 import org.lma.model.*;
 import org.lma.online.API;
 
-import omg.lma.helpers.*;
+import org.lma.helpers.*;
 
 @SuppressWarnings("serial")
 public class TakeFromCustomers extends JDialog {

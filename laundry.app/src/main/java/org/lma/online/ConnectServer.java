@@ -6,8 +6,7 @@ import java.util.*;
 
 import org.apache.http.NameValuePair;
 import org.json.*;
-
-import omg.lma.helpers.Links;
+import org.lma.helpers.Links;
 
 public class ConnectServer {
 

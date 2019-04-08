@@ -6,14 +6,14 @@ import java.io.IOException;
 import javax.swing.*;
 
 import org.json.*;
+import org.lma.helpers.Cryptograph;
+import org.lma.helpers.Links;
+import org.lma.helpers.PointLayout;
+import org.lma.helpers.Storage;
 import org.lma.model.*;
 import org.lma.online.*;
 
-import omg.lma.helpers.Cookies;
-import omg.lma.helpers.Cryptograph;
-import omg.lma.helpers.Links;
-import omg.lma.helpers.PointLayout;
-import omg.lma.helpers.Storage;
+import org.lma.helpers.*;
 
 import java.awt.event.*;
 

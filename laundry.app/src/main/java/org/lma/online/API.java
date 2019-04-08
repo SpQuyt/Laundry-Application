@@ -6,10 +6,9 @@ import java.util.*;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.*;
+import org.lma.helpers.Links;
+import org.lma.helpers.Storage;
 import org.lma.model.BillModel;
-
-import omg.lma.helpers.Links;
-import omg.lma.helpers.Storage;
 
 public class API {
 	

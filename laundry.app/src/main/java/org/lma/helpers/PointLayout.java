@@ -1,4 +1,4 @@
-package omg.lma.helpers;
+package org.lma.helpers;
 
 import java.awt.*;
 

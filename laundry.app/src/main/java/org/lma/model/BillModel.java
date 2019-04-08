@@ -2,7 +2,7 @@ package org.lma.model;
 
 import javax.swing.*;
 
-import omg.lma.helpers.Time;
+import org.lma.helpers.Time;
 
 public class BillModel {
 	private String billID;

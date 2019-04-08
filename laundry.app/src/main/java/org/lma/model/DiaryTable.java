@@ -7,11 +7,11 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import org.json.*;
+import org.lma.helpers.Storage;
 import org.lma.online.*;
 
 import io.github.qualtagh.swing.table.model.*;
 import io.github.qualtagh.swing.table.view.*;
-import omg.lma.helpers.Storage;
 
 public class DiaryTable {
 	public static JBroTable table;

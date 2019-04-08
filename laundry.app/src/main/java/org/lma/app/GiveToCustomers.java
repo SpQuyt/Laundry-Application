@@ -5,8 +5,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import omg.lma.helpers.Links;
-import omg.lma.helpers.PointLayout;
+import org.lma.helpers.Links;
+import org.lma.helpers.PointLayout;
 
 @SuppressWarnings("serial")
 public class GiveToCustomers extends JDialog {
