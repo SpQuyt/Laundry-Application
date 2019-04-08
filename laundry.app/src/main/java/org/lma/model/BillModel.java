@@ -1,6 +1,6 @@
 package org.lma.model;
 
-import javax.swing.;
+import javax.swing.*;
 
 import omg.lma.helpers.Time;
 
