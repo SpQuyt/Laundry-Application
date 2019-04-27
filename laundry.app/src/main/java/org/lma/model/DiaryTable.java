@@ -38,8 +38,8 @@ public class DiaryTable {
 			
 			if (success) {
 				JSONArray jsonArray = (JSONArray) response.get("result");
-				
-				for (int i = 0; i < response.length(); i++) {
+								
+				for (int i = 0; i < jsonArray.length(); i++) {
 					ArrayList<String> list = new ArrayList<String>();
 					JSONObject obj = (JSONObject) jsonArray.get(i);
 					

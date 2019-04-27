@@ -5,15 +5,11 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.PlainDocument;
 
-import org.json.JSONObject;
 import org.lma.helpers.Links;
 import org.lma.helpers.MyIntFilter;
 import org.lma.helpers.PointLayout;
 import org.lma.helpers.Storage;
 import org.lma.model.*;
-import org.lma.online.API;
-
-import org.lma.helpers.*;
 
 @SuppressWarnings("serial")
 public class TakeFromCustomers extends JDialog {
@@ -414,40 +410,23 @@ public class TakeFromCustomers extends JDialog {
 		totalAmount.setBounds(24, 29, 260, 43);
 		thanhToan.add(totalAmount);
 		
-		JButton confirmButton = new JButton("Xem hoá đơn");
-		confirmButton.addActionListener(new ActionListener() {
+		JButton previewButton = new JButton("Xem hoá đơn");
+		previewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BillModel newBill = new BillModel(nameField, weightField1, weightField2, 
+				BillModel newBill = new BillModel(Storage.objID, nameField, weightField1, weightField2, 
 						to1Field, vua1Field, nho1Field, to2Field, vua2Field, nho2Field,
 						tenDVField, soTienField, calculateTotal(), check1, check2, 
 						weightAfter1, weightAfter2);
 
 				Storage.newBill = newBill;
-				JSONObject response = null;
-				Boolean success = null;
-				
-				
-				try {
-					response = API.updateBillAPI(newBill);
-					success = (Boolean) response.get("success");
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Không kết nối được tới máy chủ!");
-				} 
-				
-				if (!success) {
-					JOptionPane.showMessageDialog(null, "Không tìm được tài khoản và mật khẩu người dùng!");
-				}
-				else {
-					
-				}
 				
 				JDialog modalPrint = new JDialog(new JFrame(), true);
 				new PrintForm(modalPrint);
 			}
 		});
-		confirmButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		confirmButton.setBounds(310, 168, 159, 43);
-		thanhToan.add(confirmButton);
+		previewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+		previewButton.setBounds(310, 168, 159, 43);
+		thanhToan.add(previewButton);
 	}
 	
 	public long calculateTotal() {

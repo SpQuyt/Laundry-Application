@@ -1,13 +1,15 @@
 package org.lma.online;
 
 import java.io.BufferedReader;
+import java.net.ConnectException;
 import java.util.*;
+
+import javax.swing.JOptionPane;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.*;
 import org.lma.helpers.Links;
-import org.lma.helpers.Storage;
 import org.lma.model.BillModel;
 
 public class API {
@@ -31,23 +33,25 @@ public class API {
 			}
 			response = new JSONObject(output); 
 			in.close();
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (ConnectException e1) {
+			JOptionPane.showMessageDialog(null, "Không kết nối được với máy chủ!");
+		} catch (JSONException e2) {
+			JOptionPane.showMessageDialog(null, "Không tìm được tài khoản và mật khẩu người dùng!");
+		}
+		catch (Exception e3) {
+			e3.printStackTrace();
 		}
 		return response;
 	}
 	
-	public static JSONObject getBillAPI(String objID){
-		//add params
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("objID", objID));
-		
+	public static JSONObject getBillAPI(String objID){		
 		//create JSON response
 		JSONObject response = null;
+		String link = "http://192.168.0.102:3000/users/" + objID + "/bills";
 		
-		//send POST request to server
+		//send GET request to server
 		try {
-			BufferedReader in = ConnectServer.sendPost(params, Links.urlGetBillServer);
+			BufferedReader in = ConnectServer.sendGet(link);
 			String result ="";
 			String output = null;
 			while ((result = in.readLine()) != null) {
@@ -63,11 +67,11 @@ public class API {
 		return response;
 	}
 	
-	public static JSONObject updateBillAPI(BillModel newBill){
+	public static JSONObject insertBillAPI(BillModel newBill){
 		//add params
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("billID", newBill.getBillID()));
-		params.add(new BasicNameValuePair("userID", Storage.newUserLogin.getObjID()));
+		params.add(new BasicNameValuePair("userID", newBill.getUserID()));
 		params.add(new BasicNameValuePair("name", newBill.getName()));
 		params.add(new BasicNameValuePair("dry", Integer.toString(newBill.getDry())));
 		params.add(new BasicNameValuePair("wet", Integer.toString(newBill.getWet())));
@@ -78,11 +82,10 @@ public class API {
 		params.add(new BasicNameValuePair("blanketMedium", Integer.toString(newBill.getBlanketMedium())));
 		params.add(new BasicNameValuePair("blanketSmall", Integer.toString(newBill.getBlanketSmall())));
 		params.add(new BasicNameValuePair("otherName", newBill.getOthersName()));
-		
-		System.out.println(newBill.getOthersTotal());
 		params.add(new BasicNameValuePair("otherTotal", Long.toString(newBill.getOthersTotal())));
 		params.add(new BasicNameValuePair("money", Long.toString(newBill.getMoney())));
 		params.add(new BasicNameValuePair("purchased", Boolean.toString(newBill.isPurchased())));
+		params.add(new BasicNameValuePair("timeCreated", newBill.getTimeCreated()));
 		
 		//create JSON response
 		JSONObject response = null;

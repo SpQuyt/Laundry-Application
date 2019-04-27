@@ -6,6 +6,7 @@ import org.lma.helpers.Time;
 
 public class BillModel {
 	private String billID;
+	private String timeCreated;
 	private String userID;
 	private String name;
 	private int dry;
@@ -27,6 +28,12 @@ public class BillModel {
 	}
 	public void setBillID(String billID) {
 		this.billID = billID;
+	}
+	public String getTimeCreated() {
+		return timeCreated;
+	}
+	public void setTimeCreated(String timeCreated) {
+		this.timeCreated = timeCreated;
 	}
 	public String getUserID() {
 		return userID;
@@ -113,10 +120,12 @@ public class BillModel {
 		this.purchased = purchased;
 	}
 	
-	public BillModel(JTextField nameField, JTextField weightField1, JTextField weightField2, 
+	public BillModel(String newUserID, JTextField nameField, JTextField weightField1, JTextField weightField2, 
 			JTextField to1Field, JTextField vua1Field, JTextField nho1Field, JTextField to2Field, JTextField vua2Field, JTextField nho2Field,
 			JTextField tenDVField, JTextField soTienField, long numberTotalAmount, JCheckBox check1, JCheckBox check2, JRadioButton weightAfter1, JRadioButton weightAfter2) {
-		this.setBillID(Time.convertTimeToString());
+		this.setBillID(Time.convertTimeToID());
+		this.setUserID(newUserID);
+		this.setTimeCreated(Time.convertTimeToString());
 		this.setName(nameField.getText());
 		
 		/////////////////////////////////////////////////////////////////////////////Wet and Dry
@@ -201,6 +210,5 @@ public class BillModel {
 			this.setPurchased(true);
 		}
 	}
-	
 	
 }

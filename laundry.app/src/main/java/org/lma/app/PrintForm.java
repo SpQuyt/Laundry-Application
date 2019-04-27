@@ -3,9 +3,11 @@ package org.lma.app;
 import java.awt.*;
 import javax.swing.*;
 
+import org.json.JSONObject;
 import org.lma.helpers.Links;
 import org.lma.helpers.PointLayout;
 import org.lma.helpers.Storage;
+import org.lma.online.API;
 
 import java.awt.event.ActionListener;
 import java.awt.print.PageFormat;
@@ -32,7 +34,7 @@ public class PrintForm extends JDialog {
 	private JLabel name2;
 	private JLabel timestamp2;
 	private JLabel code2;
-	private JButton btnInHan;
+	private JButton addToDB;
 	
 	private int frameWidth = 600;
 	private int frameHeight = 700;
@@ -64,7 +66,7 @@ public class PrintForm extends JDialog {
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	
-	public void createTextpaneAndTextfield() {
+	public void createTextpaneAndTextfield(final JDialog frame) {
 		contentPanel = new JPanel();
 		
 		final JPanel printPanel = new JPanel();
@@ -132,7 +134,7 @@ public class PrintForm extends JDialog {
 		code1F.setBounds(233, 11, 277, 23);
 		printPanel.add(code1F);
 		
-		JLabel timestamp1F = new JLabel("");
+		JLabel timestamp1F = new JLabel(Storage.newBill.getTimeCreated());
 		timestamp1F.setBounds(233, 39, 277, 23);
 		printPanel.add(timestamp1F);
 		
@@ -165,7 +167,7 @@ public class PrintForm extends JDialog {
 		code2F.setBounds(233, 321, 277, 23);
 		printPanel.add(code2F);
 		
-		JLabel timestamp2F = new JLabel("");
+		JLabel timestamp2F = new JLabel(Storage.newBill.getTimeCreated());
 		timestamp2F.setBounds(233, 351, 277, 23);
 		printPanel.add(timestamp2F);
 		
@@ -190,56 +192,88 @@ public class PrintForm extends JDialog {
 		purchase2F.setBounds(233, 556, 277, 23);
 		printPanel.add(purchase2F);
 		
-		btnInHan = new JButton("In hóa đơn");
-		btnInHan.addActionListener(new ActionListener() {
+		addToDB = new JButton("Thêm vào CSDL");
+		addToDB.addActionListener(new ActionListener() {
+			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
-				final PrinterJob job = PrinterJob.getPrinterJob();
-				job.setJobName("IN_HOA_DON");
-				job.setPrintable(new Printable() {
+				int choice = JOptionPane.showConfirmDialog(
+			            null,
+			            "Bạn có muốn in hoá đơn không?",
+			            "",
+			            JOptionPane.YES_NO_OPTION);
 
-					public int print(Graphics pg, PageFormat pf, int pageNum) throws PrinterException {
-						if (pageNum > 0) {
-							return Printable.NO_SUCH_PAGE;
+			        if(choice == 0){
+			            final PrinterJob job = PrinterJob.getPrinterJob();
+						job.setJobName("IN_HOA_DON");
+						job.setPrintable(new Printable() {
+
+							public int print(Graphics pg, PageFormat pf, int pageNum) throws PrinterException {
+								if (pageNum > 0) {
+									return Printable.NO_SUCH_PAGE;
+								}
+								// get the bounds of the component
+							    Dimension dim = printPanel.getSize();
+							    double cHeight = dim.getHeight();
+							    double cWidth = dim.getWidth();
+
+							    // get the bounds of the printable area
+							    double pHeight = pf.getImageableHeight();
+							    double pWidth = pf.getImageableWidth();
+
+							    double pXStart = pf.getImageableX();
+							    double pYStart = pf.getImageableY();
+
+							    double xRatio = pWidth / cWidth;
+							    double yRatio = pHeight / cHeight;
+								
+								Graphics2D g2 = (Graphics2D)pg;
+								g2.translate(pXStart, pYStart);
+							    g2.scale(xRatio, yRatio);
+								printPanel.paint(g2);
+								
+								return Printable.PAGE_EXISTS;
+							}
+						});
+						boolean ok = job.printDialog();
+						if (ok) {
+							try {
+								job.print();
+							}
+							catch (PrinterException ex) {
+								ex.printStackTrace();
+							}
 						}
-						// get the bounds of the component
-					    Dimension dim = printPanel.getSize();
-					    double cHeight = dim.getHeight();
-					    double cWidth = dim.getWidth();
-
-					    // get the bounds of the printable area
-					    double pHeight = pf.getImageableHeight();
-					    double pWidth = pf.getImageableWidth();
-
-					    double pXStart = pf.getImageableX();
-					    double pYStart = pf.getImageableY();
-
-					    double xRatio = pWidth / cWidth;
-					    double yRatio = pHeight / cHeight;
-						
-						Graphics2D g2 = (Graphics2D)pg;
-						g2.translate(pXStart, pYStart);
-					    g2.scale(xRatio, yRatio);
-						printPanel.paint(g2);
-						
-						return Printable.PAGE_EXISTS;
-					}
-				});
-				boolean ok = job.printDialog();
-				if (ok) {
+			        } else {
+			        	
+			        }
+			        
+			        //Add to Database 
+			        JSONObject response = null;
+					Boolean success = null;
+					
 					try {
-						job.print();
+						response = API.insertBillAPI(Storage.newBill);
+						success = (Boolean) response.get("success");
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, "Không kết nối được tới máy chủ!");
+					} 
+					
+					if (!success) {
+						JOptionPane.showMessageDialog(null, "Thông tin không hợp lệ!");
 					}
-					catch (PrinterException ex) {
-						ex.printStackTrace();
+					else {
+						JOptionPane.showMessageDialog(null, "Đã thêm vào Cơ sở Dữ liệu!");
 					}
-				}
+								
 				
 				Storage.billCounter++;
+				frame.dispose();
+				
 			}
 		});
-		btnInHan.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnInHan.setBounds(435, 617, 139, 33);
-		contentPanel.add(btnInHan);
+		addToDB.setFont(new Font("Tahoma", Font.BOLD, 16));
+		addToDB.setBounds(336, 617, 238, 33);
+		contentPanel.add(addToDB);
 	}
 	
 	public PrintForm(JDialog modal) {
@@ -254,7 +288,7 @@ public class PrintForm extends JDialog {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		createTextpaneAndTextfield();
+		createTextpaneAndTextfield(modal);
 		createFrame(modal);
 	}
 }

@@ -4,11 +4,13 @@ import java.text.*;
 import java.util.*;
 
 public class Time {
+	private static Date date = new Date();
+	
 	public static void main(String[] args) {
 		convertTimeToString();
 	}
 	
-	public static String convertTimeToString() {
+	public static String convertTimeToID() {
 		String counter = "";
 		if (Storage.billCounter < 10) {
 			counter += "00";
@@ -23,8 +25,14 @@ public class Time {
 		}
 		
 		DateFormat dateFormat = new SimpleDateFormat("ddMMyy");
-		Date date = new Date();
 		
 		return dateFormat.format(date).toString() + counter;
+	}
+	
+	public static String convertTimeToString() {
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+		String string = dateFormat.format(date).toString();
+		
+		return string;
 	}
 }

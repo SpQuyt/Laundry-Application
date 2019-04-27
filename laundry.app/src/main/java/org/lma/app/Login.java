@@ -93,8 +93,8 @@ public class Login extends JFrame {
 				try {
 					response = API.loginAPI(userField.getText(), Login.md5Password);
 					success = (Boolean) response.get("success");
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Không kết nối được tới máy chủ!");
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				} 
 				
 				if (!success) {
