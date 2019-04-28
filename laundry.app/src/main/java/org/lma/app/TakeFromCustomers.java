@@ -7,6 +7,7 @@ import javax.swing.text.PlainDocument;
 
 import org.lma.helpers.Links;
 import org.lma.helpers.MyIntFilter;
+import org.lma.helpers.MyString;
 import org.lma.helpers.PointLayout;
 import org.lma.helpers.Storage;
 import org.lma.model.*;
@@ -39,6 +40,8 @@ public class TakeFromCustomers extends JDialog {
 	private JLabel soTien;
 	private JTextField soTienField;
 	private JLabel numberTotal;
+	private JButton totalAmount = new JButton("TỔNG SỐ TIỀN THANH TOÁN");
+	private JButton previewButton = new JButton("Xem hoá đơn");
 	
 	private int frameWidth = 675;
 	private int frameHeight = 496;
@@ -59,6 +62,12 @@ public class TakeFromCustomers extends JDialog {
 		tenKH.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		nameField = new JTextField();
+		nameField.addKeyListener(new KeyAdapter() {
+	        public void keyReleased(KeyEvent e) {
+	        	previewButton.setEnabled(false);
+				totalAmount.setEnabled(true);
+	        }
+	    });
 		nameField.setBounds(214, 54, 335, 37);
 		contentPanel.add(nameField);
 		nameField.setColumns(10);
@@ -171,7 +180,7 @@ public class TakeFromCustomers extends JDialog {
 		weightAfter2 = new JRadioButton("Cân sau");
 		weightAfter2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				weightField2.setEnabled(true);
+				weightField2.setEnabled(false);
 			}
 		});
 		weightAfter2.setBounds(230, 183, 84, 23);
@@ -400,19 +409,10 @@ public class TakeFromCustomers extends JDialog {
 		numberTotal.setText(0 + " đồng");
 		thanhToan.add(numberTotal);
 		
-		JButton totalAmount = new JButton("TỔNG SỐ TIỀN THANH TOÁN");
-		totalAmount.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				numberTotal.setText(calculateTotal() + " đồng");
-			}
-		});
-		totalAmount.setFont(new Font("Tahoma", Font.BOLD, 14));
-		totalAmount.setBounds(24, 29, 260, 43);
-		thanhToan.add(totalAmount);
 		
-		JButton previewButton = new JButton("Xem hoá đơn");
 		previewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				Storage.newBill = null;
 				BillModel newBill = new BillModel(Storage.objID, nameField, weightField1, weightField2, 
 						to1Field, vua1Field, nho1Field, to2Field, vua2Field, nho2Field,
 						tenDVField, soTienField, calculateTotal(), check1, check2, 
@@ -426,81 +426,105 @@ public class TakeFromCustomers extends JDialog {
 		});
 		previewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		previewButton.setBounds(310, 168, 159, 43);
+		previewButton.setEnabled(false);
 		thanhToan.add(previewButton);
+		
+		
+		totalAmount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!MyString.isStringOnlyAlphabet(nameField.getText())) {
+					JOptionPane.showMessageDialog(null, "Phải nhập tên khách hàng!");
+				}
+				else {
+					numberTotal.setText(calculateTotal() + " đồng");
+					previewButton.setEnabled(true);
+					totalAmount.setEnabled(false);
+				}	
+			}
+		});
+		totalAmount.setFont(new Font("Tahoma", Font.BOLD, 14));
+		totalAmount.setBounds(24, 29, 260, 43);
+		thanhToan.add(totalAmount);
 	}
 	
-	public long calculateTotal() {
-		int dry, wet, jBig, jMedium,jSmall, bBig, bMedium, bSmall, oTotal;
-		
-		/////////////////////////////////////////////////////////////////////////////Wet and Dry
-		if (weightField1.getText() == null || weightField1.getText().compareTo("") == 0) {
-			dry = 0;
+	public String calculateTotal() {
+		if (weightAfter1.isSelected() || weightAfter2.isSelected()) {
+			return "...";
 		}
+		
 		else {
-			dry = Integer.parseInt(weightField1.getText()) * Storage.newUserLogin.getGiatSayTien();
+			int dry, wet, jBig, jMedium,jSmall, bBig, bMedium, bSmall, oTotal;
+			
+			/////////////////////////////////////////////////////////////////////////////Wet and Dry
+			if (weightField1.getText() == null || weightField1.getText().compareTo("") == 0) {
+				dry = 0;
+			}
+			else {
+				dry = Integer.parseInt(weightField1.getText()) * Storage.newUserLogin.getGiatSayTien();
+			}
+			
+			if (weightField2.getText() == null || weightField2.getText().compareTo("") == 0) {
+				wet = 0;
+			}
+			else {
+				wet = Integer.parseInt(weightField2.getText()) * Storage.newUserLogin.getGiatUotTien();
+			}
+			
+			///////////////////////////////////////////////////////////////////////////jacket
+			if (to1Field.getText() == null || to1Field.getText().compareTo("") == 0) {
+				jBig = 0;
+			}
+			else {
+				jBig = Integer.parseInt(to1Field.getText()) * Storage.newUserLogin.getAoKhoacToTien();
+			}
+			
+			if (vua1Field.getText() == null || vua1Field.getText().compareTo("") == 0) {
+				jMedium = 0;
+			}
+			else {
+				jMedium = Integer.parseInt(vua1Field.getText()) * Storage.newUserLogin.getAoKhoacVuaTien();
+			}
+			
+			if (nho1Field.getText() == null || nho1Field.getText().compareTo("") == 0) {
+				jSmall = 0;
+			}
+			else {
+				jSmall = Integer.parseInt(nho1Field.getText()) * Storage.newUserLogin.getAoKhoacNhoTien();
+			}
+			
+			//////////////////////////////////////////////////////////////////////////blanket
+			if (to2Field.getText() == null || to2Field.getText().compareTo("") == 0) {
+				bBig = 0;
+			}
+			else {
+				bBig = Integer.parseInt(to2Field.getText()) * Storage.newUserLogin.getChanToTien();
+			}
+			
+			if (vua2Field.getText() == null || vua2Field.getText().compareTo("") == 0) {
+				bMedium = 0;
+			}
+			else {
+				bMedium = Integer.parseInt(vua2Field.getText()) * Storage.newUserLogin.getChanVuaTien();
+			}
+			
+			if (nho2Field.getText() == null || nho2Field.getText().compareTo("") == 0) {
+				bSmall = 0;
+			}
+			else {
+				bSmall = Integer.parseInt(nho2Field.getText()) * Storage.newUserLogin.getChanNhoTien();
+			}
+			
+			////////////////////////////////////////////////////////////////others
+			
+			if (soTienField.getText() == null || soTienField.getText().compareTo("") == 0) {
+				oTotal = 0;
+			}
+			else {
+				oTotal = Integer.parseInt(soTienField.getText());
+			}
+			
+			return Integer.toString(wet + dry + jBig + jMedium + jSmall + bBig + bMedium + bSmall + oTotal);
 		}
-		
-		if (weightField2.getText() == null || weightField2.getText().compareTo("") == 0) {
-			wet = 0;
-		}
-		else {
-			wet = Integer.parseInt(weightField2.getText()) * Storage.newUserLogin.getGiatUotTien();
-		}
-		
-		///////////////////////////////////////////////////////////////////////////jacket
-		if (to1Field.getText() == null || to1Field.getText().compareTo("") == 0) {
-			jBig = 0;
-		}
-		else {
-			jBig = Integer.parseInt(to1Field.getText()) * Storage.newUserLogin.getAoKhoacToTien();
-		}
-		
-		if (vua1Field.getText() == null || vua1Field.getText().compareTo("") == 0) {
-			jMedium = 0;
-		}
-		else {
-			jMedium = Integer.parseInt(vua1Field.getText()) * Storage.newUserLogin.getAoKhoacVuaTien();
-		}
-		
-		if (nho1Field.getText() == null || nho1Field.getText().compareTo("") == 0) {
-			jSmall = 0;
-		}
-		else {
-			jSmall = Integer.parseInt(nho1Field.getText()) * Storage.newUserLogin.getAoKhoacNhoTien();
-		}
-		
-		//////////////////////////////////////////////////////////////////////////blanket
-		if (to2Field.getText() == null || to2Field.getText().compareTo("") == 0) {
-			bBig = 0;
-		}
-		else {
-			bBig = Integer.parseInt(to2Field.getText()) * Storage.newUserLogin.getChanToTien();
-		}
-		
-		if (vua2Field.getText() == null || vua2Field.getText().compareTo("") == 0) {
-			bMedium = 0;
-		}
-		else {
-			bMedium = Integer.parseInt(vua2Field.getText()) * Storage.newUserLogin.getChanVuaTien();
-		}
-		
-		if (nho2Field.getText() == null || nho2Field.getText().compareTo("") == 0) {
-			bSmall = 0;
-		}
-		else {
-			bSmall = Integer.parseInt(nho2Field.getText()) * Storage.newUserLogin.getChanNhoTien();
-		}
-		
-		////////////////////////////////////////////////////////////////others
-		
-		if (soTienField.getText() == null || soTienField.getText().compareTo("") == 0) {
-			oTotal = 0;
-		}
-		else {
-			oTotal = Integer.parseInt(soTienField.getText());
-		}
-		
-		return wet + dry + jBig + jMedium + jSmall + bBig + bMedium + bSmall + oTotal;
 	}
 	
 	public TakeFromCustomers(JDialog modal) {

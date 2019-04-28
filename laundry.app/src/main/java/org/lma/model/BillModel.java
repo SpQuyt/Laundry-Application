@@ -2,7 +2,7 @@ package org.lma.model;
 
 import javax.swing.*;
 
-import org.lma.helpers.Time;
+import org.lma.helpers.MyTime;
 
 public class BillModel {
 	private String billID;
@@ -19,7 +19,7 @@ public class BillModel {
 	private int blanketSmall;
 	private String othersName;
 	private long othersTotal;
-	private long money;
+	private String money;
 	private boolean purchased;
 	
 	
@@ -107,10 +107,10 @@ public class BillModel {
 	public void setOthersTotal(long othersTotal) {
 		this.othersTotal = othersTotal;
 	}
-	public long getMoney() {
+	public String getMoney() {
 		return money;
 	}
-	public void setMoney(long money) {
+	public void setMoney(String money) {
 		this.money = money;
 	}
 	public boolean isPurchased() {
@@ -122,10 +122,10 @@ public class BillModel {
 	
 	public BillModel(String newUserID, JTextField nameField, JTextField weightField1, JTextField weightField2, 
 			JTextField to1Field, JTextField vua1Field, JTextField nho1Field, JTextField to2Field, JTextField vua2Field, JTextField nho2Field,
-			JTextField tenDVField, JTextField soTienField, long numberTotalAmount, JCheckBox check1, JCheckBox check2, JRadioButton weightAfter1, JRadioButton weightAfter2) {
-		this.setBillID(Time.convertTimeToID());
+			JTextField tenDVField, JTextField soTienField, String numberTotalAmount, JCheckBox check1, JCheckBox check2, JRadioButton weightAfter1, JRadioButton weightAfter2) {
+		this.setBillID(MyTime.convertTimeToID());
 		this.setUserID(newUserID);
-		this.setTimeCreated(Time.convertTimeToString());
+		this.setTimeCreated(MyTime.convertTimeToString());
 		this.setName(nameField.getText());
 		
 		/////////////////////////////////////////////////////////////////////////////Wet and Dry

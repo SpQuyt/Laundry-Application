@@ -3,12 +3,7 @@ package org.lma.helpers;
 import java.text.*;
 import java.util.*;
 
-public class Time {
-	private static Date date = new Date();
-	
-	public static void main(String[] args) {
-		convertTimeToString();
-	}
+public class MyTime {
 	
 	public static String convertTimeToID() {
 		String counter = "";
@@ -25,12 +20,13 @@ public class Time {
 		}
 		
 		DateFormat dateFormat = new SimpleDateFormat("ddMMyy");
-		
+		Date date = new Date();
 		return dateFormat.format(date).toString() + counter;
 	}
 	
 	public static String convertTimeToString() {
-		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy   HH:mm:ss");
+		Date date = new Date();
 		String string = dateFormat.format(date).toString();
 		
 		return string;

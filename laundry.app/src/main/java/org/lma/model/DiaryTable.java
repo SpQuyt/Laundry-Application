@@ -16,15 +16,13 @@ import io.github.qualtagh.swing.table.view.*;
 public class DiaryTable {
 	public static JBroTable table;
 	@SuppressWarnings("rawtypes")
-	public static ArrayList dataTable = new ArrayList();;
-	
-//	public static void main(String[] args) {
-//		DiaryTable.getDataTable();
-//	}
+	public static ArrayList dataTable;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static ArrayList getDataTable() {
 		
+		dataTable = new ArrayList();
+		table = null;
 		JSONObject response = null;
 		Boolean success = null;
 		

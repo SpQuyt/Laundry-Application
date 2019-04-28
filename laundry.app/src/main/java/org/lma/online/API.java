@@ -83,7 +83,7 @@ public class API {
 		params.add(new BasicNameValuePair("blanketSmall", Integer.toString(newBill.getBlanketSmall())));
 		params.add(new BasicNameValuePair("otherName", newBill.getOthersName()));
 		params.add(new BasicNameValuePair("otherTotal", Long.toString(newBill.getOthersTotal())));
-		params.add(new BasicNameValuePair("money", Long.toString(newBill.getMoney())));
+		params.add(new BasicNameValuePair("money", newBill.getMoney()));
 		params.add(new BasicNameValuePair("purchased", Boolean.toString(newBill.isPurchased())));
 		params.add(new BasicNameValuePair("timeCreated", newBill.getTimeCreated()));
 		
