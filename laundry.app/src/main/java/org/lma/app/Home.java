@@ -18,11 +18,12 @@ import java.util.TimerTask;
 @SuppressWarnings("serial")
 public class Home extends JFrame {
 
-	private JPanel contentPanel;
+	private JPanel contentPanel, diaryPanel = new JPanel(), openPanel = new JPanel();
 	private JFrame frame;
-	private JBroTable table;
 	private JTabbedPane areaTab;
 	static JLabel realTimeLabel;
+	private JBroTable table;
+	private JScrollPane jps;
 	static boolean closed = true;
 	private int frameWidth = 1300;
 	private int frameHeight = 700;
@@ -77,6 +78,38 @@ public class Home extends JFrame {
 		contentPanel.add(title);
 	}
 	
+	public void createDiaryTab() {
+		diaryPanel.setLayout(null);
+		areaTab.addTab("NHẬT KÝ HOÁ ĐƠN", null, diaryPanel, null);
+		
+		table = DiaryTable.initTable();
+		
+		jps = new JScrollPane(table);
+		jps.setBounds(48, 50, 1099, 458);
+		diaryPanel.add(jps);
+		
+		JButton refreshButton = new JButton("REFRESH");
+		refreshButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				diaryPanel.remove(jps);
+				table = DiaryTable.initTable();
+				
+				jps = new JScrollPane(table);
+				jps.setBounds(48, 50, 1099, 458);
+				diaryPanel.add(jps);
+				
+				//add these lines to re-render the JTable
+				diaryPanel.repaint();
+				diaryPanel.revalidate();
+				
+			}
+		});
+		refreshButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		refreshButton.setBounds(1043, 11, 104, 23);
+		diaryPanel.add(refreshButton);
+	}
+	
 	public void createAreaTab() {
 		areaTab = new JTabbedPane(JTabbedPane.TOP);
 		areaTab.setBounds(41, 81, 1200, 544);
@@ -84,7 +117,6 @@ public class Home extends JFrame {
 	}
 
 	public void createOpenTab() {
-		final JPanel openPanel = new JPanel();
 		openPanel.setLayout(null);
 		areaTab.addTab("CỬA HÀNG", null, openPanel, null);
 		
@@ -113,14 +145,14 @@ public class Home extends JFrame {
 		JButton closeButton = new JButton("ĐÓNG CỬA HÀNG");
 		closeButton.setFont(new Font("Times New Roman", Font.BOLD, 23));
 		closeButton.setBounds(860, 360, 268, 115);
-		closeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Home.closed = !Home.closed;
-				areaTab.removeAll();
-				createOpenTab();
-				createDiaryTab();
-			}
-		});
+//		closeButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				Home.closed = !Home.closed;
+//				areaTab.removeAll();
+//				createOpenTab();
+//				createDiaryTab();
+//			}
+//		});
 		openPanel.add(closeButton);
 		
 		JLabel moneyLabel = new JLabel("SỐ TIỀN HIỆN TẠI CỦA VÍ");
@@ -133,38 +165,6 @@ public class Home extends JFrame {
 		money.setBounds(309, 163, 229, 76);
 		openPanel.add(money);	
 		
-	}
-	
-	public void createDiaryTab() {
-		final JPanel diaryPanel = new JPanel();
-		diaryPanel.setLayout(null);
-		areaTab.addTab("NHẬT KÝ HOÁ ĐƠN", null, diaryPanel, null);
-
-		table = DiaryTable.initTable();
-
-		final JScrollPane jps = new JScrollPane(table);
-		jps.setBounds(48, 50, 1099, 458);
-		diaryPanel.add(jps);
-		
-		JButton refreshButton = new JButton("REFRESH");
-		refreshButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				diaryPanel.remove(jps);
-				diaryPanel.revalidate();
-				diaryPanel.repaint();
-				
-				table = DiaryTable.initTable();
-				JScrollPane jps = new JScrollPane(table);
-				jps.setBounds(48, 50, 1099, 458);
-				diaryPanel.add(jps);
-				
-				diaryPanel.revalidate();
-				diaryPanel.repaint();
-			}
-		});
-		refreshButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-		refreshButton.setBounds(1043, 11, 104, 23);
-		diaryPanel.add(refreshButton);
 	}
 
 	public Home() {
@@ -196,12 +196,16 @@ class Clock {
             Home.realTimeLabel.setText(MyTime.convertTimeToString());
         }
     };
+//    private static TimerTask mTask2 = new TimerTask() {
+//        @Override
+//        public void run() {
+//            Home.table = DiaryTable.initTable();
+//        }
+//    };
 
     static void start() {
         mTimer.scheduleAtFixedRate(mTask, 1000, 1000);
+//        mTimer.scheduleAtFixedRate(mTask2, 100, 100);
     }
 
-//    public static void main(String[] args) {
-//    	Clock.start();
-//    }
 }

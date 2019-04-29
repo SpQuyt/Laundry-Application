@@ -21,8 +21,6 @@ public class ConnectServer {
 		//add request header
 		con.setRequestProperty("User-Agent", Links.USER_AGENT);
 
-		System.out.println("\nSending 'GET' request to URL : " + urlServer);
-
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(con.getInputStream()));
 		
@@ -47,8 +45,6 @@ public class ConnectServer {
 		wr.flush();
 		wr.close();
 
-		System.out.println("\nSending 'POST' request to URL : " + urlServer + "\n");
-
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(con.getInputStream()));
 		
@@ -66,8 +62,6 @@ public class ConnectServer {
 
 			//add request header
 			con.setRequestProperty("User-Agent", Links.USER_AGENT);
-
-			System.out.println("\nSending 'PATCH' request to URL : " + urlServer);
 
 			BufferedReader in = new BufferedReader(
 			        new InputStreamReader(con.getInputStream()));

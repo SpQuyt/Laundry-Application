@@ -30,41 +30,43 @@ public class DiaryTable {
 			try {
 				response = API.getBillAPI(Storage.objID);
 				success = (Boolean) response.get("success");
+				
+				if (success) {
+					JSONArray jsonArray = null;
+					jsonArray = (JSONArray) response.get("result");
+									
+					for (int i = 0; i < jsonArray.length(); i++) {
+						ArrayList<String> list = new ArrayList<String>();
+						JSONObject obj = (JSONObject) jsonArray.get(i);
+						
+						list.add("" + (i+1));
+						list.add(obj.get("billID").toString());
+						list.add(obj.get("name").toString());
+						list.add(obj.getJSONObject("services").get("dry").toString());
+						list.add(obj.getJSONObject("services").get("wet").toString());
+						list.add(obj.getJSONObject("services").getJSONObject("jacket").get("big").toString());
+						list.add(obj.getJSONObject("services").getJSONObject("jacket").get("medium").toString());
+						list.add(obj.getJSONObject("services").getJSONObject("jacket").get("small").toString());
+						list.add(obj.getJSONObject("services").getJSONObject("blanket").get("big").toString());
+						list.add(obj.getJSONObject("services").getJSONObject("blanket").get("medium").toString());
+						list.add(obj.getJSONObject("services").getJSONObject("blanket").get("small").toString());
+						list.add(obj.getJSONObject("services").getJSONObject("others").get("name").toString());
+						list.add(obj.getJSONObject("services").getJSONObject("others").get("total").toString());
+						list.add(obj.get("money").toString());
+						if (obj.get("purchased").toString().compareTo("true") == 0) {
+							list.add("Đã thanh toán");
+						}
+						else {
+							list.add("");
+						}
+						
+						dataTable.add(list);
+					}
+				}
 			} catch (Exception e){
 				JOptionPane.showMessageDialog(null, "Không có kết nối Internet!");
-			}
+			}		
 			
-			if (success) {
-				JSONArray jsonArray = (JSONArray) response.get("result");
-								
-				for (int i = 0; i < jsonArray.length(); i++) {
-					ArrayList<String> list = new ArrayList<String>();
-					JSONObject obj = (JSONObject) jsonArray.get(i);
-					
-					list.add("" + (i+1));
-					list.add(obj.get("billID").toString());
-					list.add(obj.get("name").toString());
-					list.add(obj.getJSONObject("services").get("dry").toString());
-					list.add(obj.getJSONObject("services").get("wet").toString());
-					list.add(obj.getJSONObject("services").getJSONObject("jacket").get("big").toString());
-					list.add(obj.getJSONObject("services").getJSONObject("jacket").get("medium").toString());
-					list.add(obj.getJSONObject("services").getJSONObject("jacket").get("small").toString());
-					list.add(obj.getJSONObject("services").getJSONObject("blanket").get("big").toString());
-					list.add(obj.getJSONObject("services").getJSONObject("blanket").get("medium").toString());
-					list.add(obj.getJSONObject("services").getJSONObject("blanket").get("small").toString());
-					list.add(obj.getJSONObject("services").getJSONObject("others").get("name").toString());
-					list.add(obj.getJSONObject("services").getJSONObject("others").get("total").toString());
-					list.add(obj.get("money").toString());
-					if (obj.get("purchased").toString().compareTo("true") == 0) {
-						list.add("Đã thanh toán");
-					}
-					else {
-						list.add("");
-					}
-					
-					dataTable.add(list);
-				}
-			}
 		}
 		
 		return dataTable;

@@ -448,83 +448,85 @@ public class TakeFromCustomers extends JDialog {
 	}
 	
 	public String calculateTotal() {
-		if (weightAfter1.isSelected() || weightAfter2.isSelected()) {
-			return "...";
-		}
+		int dry, wet, jBig, jMedium,jSmall, bBig, bMedium, bSmall, oTotal;
 		
-		else {
-			int dry, wet, jBig, jMedium,jSmall, bBig, bMedium, bSmall, oTotal;
-			
-			/////////////////////////////////////////////////////////////////////////////Wet and Dry
-			if (weightField1.getText() == null || weightField1.getText().compareTo("") == 0) {
-				dry = 0;
+			if (weightAfter1.isSelected() || weightAfter2.isSelected()) {
+				return "...";
 			}
+			
 			else {
-				dry = Integer.parseInt(weightField1.getText()) * Storage.newUserLogin.getGiatSayTien();
+				
+				/////////////////////////////////////////////////////////////////////////////Wet and Dry
+				if (weightField1.getText() == null || weightField1.getText().compareTo("") == 0 || !check1.isSelected()) {
+					dry = 0;
+				}
+				else {
+					dry = Integer.parseInt(weightField1.getText()) * Storage.newUserLogin.getGiatSayTien();
+				}
+				
+				if (weightField2.getText() == null || weightField2.getText().compareTo("") == 0 || !check2.isSelected()) {
+					wet = 0;
+				}
+				else {
+					wet = Integer.parseInt(weightField2.getText()) * Storage.newUserLogin.getGiatUotTien();
+				}
+				
+				///////////////////////////////////////////////////////////////////////////jacket
+				if (to1Field.getText() == null || to1Field.getText().compareTo("") == 0 || !khoAoKhoac.isSelected()) {
+					jBig = 0;
+				}
+				else {
+					jBig = Integer.parseInt(to1Field.getText()) * Storage.newUserLogin.getAoKhoacToTien();
+				}
+				
+				if (vua1Field.getText() == null || vua1Field.getText().compareTo("") == 0 || !khoAoKhoac.isSelected()) {
+					jMedium = 0;
+				}
+				else {
+					jMedium = Integer.parseInt(vua1Field.getText()) * Storage.newUserLogin.getAoKhoacVuaTien();
+				}
+				
+				if (nho1Field.getText() == null || nho1Field.getText().compareTo("") == 0 || !khoAoKhoac.isSelected()) {
+					jSmall = 0;
+				}
+				else {
+					jSmall = Integer.parseInt(nho1Field.getText()) * Storage.newUserLogin.getAoKhoacNhoTien();
+				}
+				
+				//////////////////////////////////////////////////////////////////////////blanket
+				if (to2Field.getText() == null || to2Field.getText().compareTo("") == 0 || !chan.isSelected()) {
+					bBig = 0;
+				}
+				else {
+					bBig = Integer.parseInt(to2Field.getText()) * Storage.newUserLogin.getChanToTien();
+				}
+				
+				if (vua2Field.getText() == null || vua2Field.getText().compareTo("") == 0 || !chan.isSelected()) {
+					bMedium = 0;
+				}
+				else {
+					bMedium = Integer.parseInt(vua2Field.getText()) * Storage.newUserLogin.getChanVuaTien();
+				}
+				
+				if (nho2Field.getText() == null || nho2Field.getText().compareTo("") == 0 || !chan.isSelected()) {
+					bSmall = 0;
+				}
+				else {
+					bSmall = Integer.parseInt(nho2Field.getText()) * Storage.newUserLogin.getChanNhoTien();
+				}
+				
+				////////////////////////////////////////////////////////////////others
+				
+				if (soTienField.getText() == null || soTienField.getText().compareTo("") == 0) {
+					oTotal = 0;
+				}
+				else {
+					oTotal = Integer.parseInt(soTienField.getText());
+				}
+				
+				return Integer.toString(wet + dry + jBig + jMedium + jSmall + bBig + bMedium + bSmall + oTotal);
 			}
-			
-			if (weightField2.getText() == null || weightField2.getText().compareTo("") == 0) {
-				wet = 0;
-			}
-			else {
-				wet = Integer.parseInt(weightField2.getText()) * Storage.newUserLogin.getGiatUotTien();
-			}
-			
-			///////////////////////////////////////////////////////////////////////////jacket
-			if (to1Field.getText() == null || to1Field.getText().compareTo("") == 0) {
-				jBig = 0;
-			}
-			else {
-				jBig = Integer.parseInt(to1Field.getText()) * Storage.newUserLogin.getAoKhoacToTien();
-			}
-			
-			if (vua1Field.getText() == null || vua1Field.getText().compareTo("") == 0) {
-				jMedium = 0;
-			}
-			else {
-				jMedium = Integer.parseInt(vua1Field.getText()) * Storage.newUserLogin.getAoKhoacVuaTien();
-			}
-			
-			if (nho1Field.getText() == null || nho1Field.getText().compareTo("") == 0) {
-				jSmall = 0;
-			}
-			else {
-				jSmall = Integer.parseInt(nho1Field.getText()) * Storage.newUserLogin.getAoKhoacNhoTien();
-			}
-			
-			//////////////////////////////////////////////////////////////////////////blanket
-			if (to2Field.getText() == null || to2Field.getText().compareTo("") == 0) {
-				bBig = 0;
-			}
-			else {
-				bBig = Integer.parseInt(to2Field.getText()) * Storage.newUserLogin.getChanToTien();
-			}
-			
-			if (vua2Field.getText() == null || vua2Field.getText().compareTo("") == 0) {
-				bMedium = 0;
-			}
-			else {
-				bMedium = Integer.parseInt(vua2Field.getText()) * Storage.newUserLogin.getChanVuaTien();
-			}
-			
-			if (nho2Field.getText() == null || nho2Field.getText().compareTo("") == 0) {
-				bSmall = 0;
-			}
-			else {
-				bSmall = Integer.parseInt(nho2Field.getText()) * Storage.newUserLogin.getChanNhoTien();
-			}
-			
-			////////////////////////////////////////////////////////////////others
-			
-			if (soTienField.getText() == null || soTienField.getText().compareTo("") == 0) {
-				oTotal = 0;
-			}
-			else {
-				oTotal = Integer.parseInt(soTienField.getText());
-			}
-			
-			return Integer.toString(wet + dry + jBig + jMedium + jSmall + bBig + bMedium + bSmall + oTotal);
-		}
+		
 	}
 	
 	public TakeFromCustomers(JDialog modal) {
